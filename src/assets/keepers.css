@@ -1,0 +1,56 @@
+
+.wow_priest {
+    color: #FFFFFF;
+}
+
+.wow_mage {
+    color: #69CCF0;
+}
+
+.wow_warlock {
+    color: #9482C9;
+}
+
+.wow_priest {
+    color: #FFFFFF;
+}
+
+.wow_rogue {
+    color: #FFF569;
+}
+
+.wow_druid {
+    color: #FF7D0A;
+}
+
+.wow_monk {
+    color: #00FF96;
+}
+
+.wow_demon_hunter {
+    color: #A330C9;
+}
+
+.wow_hunter {
+    color: #ABD473;
+}
+
+.wow_shaman {
+    color: #0070DE;
+}
+
+.wow_death_knight {
+    color: #C41F3B;
+}
+
+.wow_warrior {
+    color: #C79C6E;
+}
+
+.wow_paladin {
+    color: #F58CBA;
+}
+
+.recentTable :hover {
+    background-color: #424242 !important;
+}
