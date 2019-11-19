@@ -9,10 +9,14 @@ import "@/assets/keepers.css"
 
 import Index from "./components/Index";
 import RaidDetails from "./components/Raids/RaidDetails";
+import Roster from "./components/Roster/Roster";
+import Drops from "./components/Loot/Drops";
 
 const routes = [
   { path: '/', component: Index },
-  { name: 'raid', path: '/raid/:raidId', component: RaidDetails }
+  { name: 'raid', path: '/raid/:raidId', component: RaidDetails },
+  { name: 'roster', path: '/roster', component: Roster },
+  { name: 'loot', path: '/loot', component: Drops }
 ];
 
 const router = new VueRouter({
@@ -20,10 +24,10 @@ const router = new VueRouter({
   routes
 });
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 new Vue({
   vuetify,
   router,
   render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');

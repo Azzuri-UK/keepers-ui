@@ -54,3 +54,7 @@
 .recentTable :hover {
     background-color: #424242 !important;
 }
+
+.selectedRoute {
+    text-decoration: underline;
+}
