@@ -55,6 +55,9 @@
             },
             "zone": {
                 type: String
+            },
+            "raidStatus":{
+                type: Number
             }
         },
         methods: {
@@ -83,9 +86,7 @@
             },
 
             onViewRaid(raidId) {
-                // eslint-disable-next-line
-                console.log(raidId);
-                this.$router.push({ name: 'raid', params: { raidId:raidId } })
+                this.$router.push({ name: 'raid', params: { raidId:raidId,zone:this.zone } })
             }
 
         }

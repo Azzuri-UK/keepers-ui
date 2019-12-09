@@ -51,10 +51,22 @@
     color: #F58CBA;
 }
 
-.recentTable :hover {
+.recentTable tr:hover {
     background-color: #424242 !important;
 }
 
 .selectedRoute {
     text-decoration: underline;
+}
+
+.raidImaage {
+    background: url(http://pic2.ooopic.com/11/26/30/31b1OOOPIC48.jpg) left top no-repeat;
+    box-shadow: 25px 25px 50px 0 white inset, -25px -25px 50px 0 white inset;
+    width: 300px;
+    height: 300px;
+}
+
+.closedRaid {
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
 }

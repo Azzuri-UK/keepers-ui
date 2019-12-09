@@ -1,7 +1,7 @@
 <template>
     <v-row>
         <v-col>
-            <div class="title" style="color: orange;margin-left:10px">Upcoming Raids</div>
+            <div  align="center" class="title" style="color: orange;margin-left:10px">Upcoming Raids</div>
             <OpenRaids/>
         </v-col>
         <v-col lg="4">
