@@ -42,7 +42,7 @@
         },
         methods: {
             doLogin: function(){
-                window.location = 'http://localhost:3000/auth';
+                window.location =  process.env.VUE_APP_API_PATH + '/auth';
             }
         }
     }
