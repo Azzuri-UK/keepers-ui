@@ -16,6 +16,104 @@
             <template v-slot:top>
                 <v-toolbar flat>
                     <v-spacer></v-spacer>
+                    <v-dialog persistent v-model="importLootDialog" max-width="500px">
+                        <template v-slot:activator="{ on }">
+                            <v-btn v-show="raidOpen" color="orange" dark class="mb-2 mr-2" v-on="on">Import loot</v-btn>
+                        </template>
+                        <v-form ref="addLootForm" v-model="isAddFormValid">
+                            <v-card>
+                                <v-card-title>
+                                    <span class="headline">{{ formTitle }}</span>
+                                </v-card-title>
+
+                                <v-card-text>
+                                    <v-container>
+                                        <v-row>
+                                            <v-autocomplete
+                                                    v-model="editedItem.character_id"
+                                                    item-text="character_name"
+                                                    item-value="character_id"
+                                                    :items="attendees"
+                                                    label="Character"
+                                                    color="orange"
+                                                    item-color="orange"
+                                                    :return-object="returnObject"
+                                                    required
+                                                    :rules="dropDownRules"
+                                            >
+                                                <template slot="selection" slot-scope="data">
+                                                    <div style="font-weight: bold"
+                                                         :class="'wow_' + data.item.character_class.toLowerCase()">{{
+                                                        data.item.character_name }}
+                                                    </div>
+                                                </template>
+                                                <template slot="item" slot-scope="data">
+                                                    <div style="font-weight: bold"
+                                                         :class="'wow_' + data.item.character_class.toLowerCase()">{{
+                                                        data.item.character_name }}
+                                                    </div>
+                                                </template>
+                                            </v-autocomplete>
+                                        </v-row>
+                                        <v-row>
+                                            <v-autocomplete
+                                                    v-model="editedItem.item_id"
+                                                    :items="drops"
+                                                    label="Item"
+                                                    color="orange"
+                                                    item-color="orange"
+                                                    item-text="item_name"
+                                                    item-value="item_id"
+                                                    :return-object="returnObject"
+                                                    required
+                                                    :rules="dropDownRules"
+                                            >
+                                                <template slot="selection" slot-scope="data">
+                                                    <div style="font-weight: bold"
+                                                         :class="'q' + data.item.item_quality">{{
+                                                        data.item.item_name }}
+                                                    </div>
+                                                </template>
+                                                <template slot="item" slot-scope="data">
+                                                    <div style="font-weight: bold"
+                                                         :class="'q' + data.item.item_quality">{{
+                                                        data.item.item_name }}
+                                                    </div>
+                                                </template>
+                                            </v-autocomplete>
+                                        </v-row>
+                                        <v-row>
+                                            <v-autocomplete
+                                                    dark
+                                                    color="orange"
+                                                    v-model="editedItem.loot_type"
+                                                    item-text="text"
+                                                    item-value="value"
+                                                    :items="lootTypes"
+                                                    item-color="orange"
+                                                    label="Loot type"
+                                                    required
+                                                    :rules="dropDownRules"
+                                            >
+                                            </v-autocomplete>
+                                        </v-row>
+                                        <v-row>
+
+                                            <v-text-field color="orange" v-model="editedItem.calories"
+                                                          label="Notes"></v-text-field>
+
+                                        </v-row>
+                                    </v-container>
+                                </v-card-text>
+
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn color="red" text @click="close">Cancel</v-btn>
+                                    <v-btn color="green" text @click="save">Save</v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-form>
+                    </v-dialog>
                     <v-dialog persistent v-model="dialog" max-width="500px">
                         <template v-slot:activator="{ on }">
                             <v-btn v-show="raidOpen" color="orange" dark class="mb-2" v-on="on">Add loot</v-btn>
