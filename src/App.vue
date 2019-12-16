@@ -24,12 +24,12 @@
             <v-btn v-if="this.$store.getters.getRole != null" @click="showCrafting" v-bind:class="{ 'selectedRoute': $route.path === '/crafting' }" text color="orange">
                 CRAFTING
             </v-btn>
-            <v-btn v-if="this.$store.getters.getRole != null"  @click="showBis" v-bind:class="{ 'selectedRoute': $route.path === '/bis' }" text color="orange">
-                BEST IN SLOT
-            </v-btn>
-            <v-btn v-if="this.$store.getters.getRole != null"  @click="showBank" v-bind:class="{ 'selectedRoute': $route.path === '/bank' }" text color="orange">
-                GUILD BANK
-            </v-btn>
+<!--            <v-btn v-if="this.$store.getters.getRole != null"  @click="showBis" v-bind:class="{ 'selectedRoute': $route.path === '/bis' }" text color="orange">-->
+<!--                BEST IN SLOT-->
+<!--            </v-btn>-->
+<!--            <v-btn v-if="this.$store.getters.getRole != null"  @click="showBank" v-bind:class="{ 'selectedRoute': $route.path === '/bank' }" text color="orange">-->
+<!--                GUILD BANK-->
+<!--            </v-btn>-->
         </v-app-bar>
 
         <v-content>

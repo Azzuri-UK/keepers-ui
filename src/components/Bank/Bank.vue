@@ -1,5 +1,5 @@
 <template>
-    <div>bank</div>
+    <div align="center">COMING SOON(ish)</div>
 </template>
 
 <script>
