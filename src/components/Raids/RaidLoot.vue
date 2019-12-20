@@ -195,6 +195,21 @@
                                             >
                                             </v-autocomplete>
                                         </v-row>
+                                        <v-row v-show="editedItem.loot_type ===3">
+                                            <v-autocomplete
+                                                    dark
+                                                    color="orange"
+                                                    v-model="editedItem.loot_subtype"
+                                                    item-text="text"
+                                                    item-value="value"
+                                                    :items="lootSubTypes"
+                                                    item-color="orange"
+                                                    label="Awarded for"
+                                                    required
+                                                    :rules="dropDownRules"
+                                            >
+                                            </v-autocomplete>
+                                        </v-row>
                                         <v-row>
 
                                             <v-text-field color="orange" v-model="editedItem.calories"
@@ -235,6 +250,9 @@
             </template>
             <template v-slot:item.loot_type="{ item }">
                 {{getLootType(item.loot_type)}}
+            </template>
+            <template v-slot:item.loot_subcategory="{ item }">
+                {{getLootSubType(item.loot_subcategory)}}
             </template>
             <template v-slot:item.action="{ item }">
                 <v-icon
@@ -337,8 +355,24 @@
                     item_quality: ''
                 },
                 editedIndex: -1,
-                editedItem: {character_id: '', item_id: 0, item_name: '', item_quality: 0, loot_type: 0, notes: ''},
-                defaultItem: {character_id: '', item_id: 0, item_name: '', item_quality: 0, loot_type: 0, notes: ''},
+                editedItem: {
+                    character_id: '',
+                    item_id: 0,
+                    item_name: '',
+                    item_quality: 0,
+                    loot_type: 0,
+                    loot_subcategory: 0,
+                    notes: ''
+                },
+                defaultItem: {
+                    character_id: '',
+                    item_id: 0,
+                    item_name: '',
+                    item_quality: 0,
+                    loot_type: 0,
+                    loot_subcategory: 0,
+                    notes: ''
+                },
                 selected: [],
                 lootTypes: [
                     {
@@ -354,10 +388,25 @@
                         value: 3
                     },
                 ],
+                lootSubTypes: [
+                    {
+                        text: 'Mainspec/Need',
+                        value: 1
+                    },
+                    {
+                        text: 'Minor Upgrade',
+                        value: 2
+                    },
+                    {
+                        text: 'Offspec/Other',
+                        value: 3
+                    },
+                ],
                 isAddFormValid: false,
                 dropDownRules: [
                     v => !!v || 'This field is required'
                 ],
+                importLootDialog: false
             }
         },
         mounted() {
@@ -413,6 +462,18 @@
                         return 'Free Roll';
                     case 3:
                         return 'Loot Council'
+                }
+            },
+            getLootSubType: function (loot_type) {
+                switch (loot_type) {
+                    case 1:
+                        return 'Mainspec/Need';
+                    case 2:
+                        return 'Minor Upgrade';
+                    case 3:
+                        return 'Offspec/Other';
+                    default:
+                        return ''
                 }
             },
             getItemClass: function (item_class) {
@@ -481,7 +542,7 @@
                 return this.editedIndex === -1 ? 'Add loot' : 'Edit loot'
             },
             raidOpen() {
-                return this.raidStatus === 1 && this.$store.getters.getRole === 'ARCHKEEPERS'
+                return this.raidStatus === 1 && (this.$store.getters.getRole === 'ARCHKEEPERS' || this.$store.getters.getRole === 'KEEPERSCOUNCIL')
             },
             computedHeaders() {
                 if (this.raidOpen === true) {
@@ -490,6 +551,7 @@
                         {text: 'Character', value: 'character_name'},
                         {text: 'Item', value: 'item_id'},
                         {text: 'Loot Type', value: 'loot_type'},
+                        {text: 'Awarded for', value: 'loot_subcategory'},
                         {text: 'Actions', value: 'action', sortable: false, width: 50},
                     ]
                 } else {
@@ -497,7 +559,8 @@
                         {text: '', value: 'character_class', width: 30},
                         {text: 'Character', value: 'character_name'},
                         {text: 'Item', value: 'item_id'},
-                        {text: 'Loot Type', value: 'loot_type'}
+                        {text: 'Loot Type', value: 'loot_type'},
+                        {text: 'Awarded for', value: 'loot_subcategory'},
                     ]
                 }
             }

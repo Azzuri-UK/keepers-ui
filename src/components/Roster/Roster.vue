@@ -290,10 +290,10 @@
         },
         computed: {
             canAddCharacter() {
-                return this.$store.getters.getRole === 'ARCHKEEPERS'
+                return (this.$store.getters.getRole === 'ARCHKEEPERS' || this.$store.getters.getRole === 'KEEPERSCOUNCIL')
             },
             canImportRoster() {
-                return this.$store.getters.getRole === 'ARCHKEEPERS'
+                return (this.$store.getters.getRole === 'ARCHKEEPERS' || this.$store.getters.getRole === 'KEEPERSCOUNCIL')
             }
         }
     }

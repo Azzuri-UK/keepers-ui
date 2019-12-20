@@ -360,10 +360,10 @@
         },
         computed: {
             canAddRecipe() {
-                return this.$store.getters.getRole === 'ARCHKEEPERS'
+                return (this.$store.getters.getRole === 'ARCHKEEPERS' || this.$store.getters.getRole === 'KEEPERSCOUNCIL')
             },
             canAddCrafter() {
-                return this.$store.getters.getRole === 'ARCHKEEPERS'
+                return (this.$store.getters.getRole === 'ARCHKEEPERS' || this.$store.getters.getRole === 'KEEPERSCOUNCIL')
             }
         }
     }

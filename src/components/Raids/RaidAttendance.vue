@@ -403,7 +403,7 @@
         },
         computed: {
             raidOpen() {
-                return this.raidStatus === 1 && this.$store.getters.getRole === 'ARCHKEEPERS'
+                return this.raidStatus === 1 && (this.$store.getters.getRole === 'ARCHKEEPERS' || this.$store.getters.getRole === 'KEEPERSCOUNCIL')
             }
         }
     }
