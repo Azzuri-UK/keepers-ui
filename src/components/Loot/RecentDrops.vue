@@ -8,7 +8,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr class="recentTable" v-for="item in loot" :key="item.loot_id">
+            <tr class="recentTable" v-for="item in loot" :key="item.loot_id + item.character_name">
                 <td width="50%"><div style="font-weight: bold" :class="'wow_' + item.character_class.toLowerCase()">{{ item.character_name }}</div></td>
                 <td><a :href="'https://classic.wowhead.com/item=' + item.loot_id" style="font-weight: bold;text-decoration: none" :class="getItemClass(item.item_quality)" :data-wowhead=item.loot_id>{{item.item_name}}</a></td>
             </tr>

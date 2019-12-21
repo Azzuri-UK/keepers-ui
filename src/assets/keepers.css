@@ -70,3 +70,40 @@
     -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
     filter: grayscale(100%);
 }
+
+.recruitment_closed {
+    color: red;
+}
+
+.recruitment_low {
+    color: orange;
+}
+
+.recruitment_open {
+    color: white;
+}
+
+.recruitment_high {
+    color: #00ff00;
+}
+
+.loot_0 {
+
+}
+
+.loot_1 {
+    font-weight: bold;
+    color: green
+}
+
+.loot_2{
+    color: cyan;
+}
+
+.loot_3 {
+    color: orange;
+}
+
+.guildless {
+    color: grey;
+}

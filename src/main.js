@@ -16,24 +16,27 @@ import Index from "./components/Index";
 import RaidDetails from "./components/Raids/RaidDetails";
 import Roster from "./components/Roster/Roster";
 import Drops from "./components/Loot/Drops";
-import Crafting from "./components/crafting/Crafting";
-import Bis from "./components/bis/Bis";
+import Crafting from "./components/Crafting/Crafting";
+import Bis from "./components/Bis/Bis";
 import RaidList from "./components/Raids/RaidList";
-import Login from "./components/login/Login";
+import Login from "./components/Login/Login";
 import Bank from "./components/Bank/Bank";
+import Recruitment from "./components/Recruitment/Recruitment";
 
 
 
 const routes = [
     {path: '/', component: Index, meta: {requiresAuth: true}},
-    {name: 'login', path: '/login', component: Login},
+    {name: 'login', path: '/Login', component: Login},
     {name: 'raid', path: '/raid/:raidId', component: RaidDetails, props: true, meta: {requiresAuth: true}},
     {name: 'raids', path: '/raids', component: RaidList, props: true, meta: {requiresAuth: true}},
     {name: 'roster', path: '/roster', component: Roster, meta: {requiresAuth: true}},
     {name: 'loot', path: '/loot', component: Drops, meta: {requiresAuth: true}},
-    {name: 'bis', path: '/bis', component: Bis, meta: {requiresAuth: true}},
-    {name: 'crafting', path: '/crafting', component: Crafting, meta: {requiresAuth: true}},
-    {name: 'bank', path: '/bank', component: Bank, meta: {requiresAuth: true}}
+    {name: 'bis', path: '/Bis', component: Bis, meta: {requiresAuth: true}},
+    {name: 'crafting', path: '/Crafting', component: Crafting, meta: {requiresAuth: true}},
+    {name: 'bank', path: '/bank', component: Bank, meta: {requiresAuth: true}},
+    {name: 'about', path: '/about', component: Bank, meta: {requiresAuth: false}},
+    {name: 'recruitment', path: '/recruitment', component: Recruitment, meta: {requiresAuth: false}}
 ];
 
 const router = new VueRouter({
@@ -116,7 +119,7 @@ router.beforeEach((to, from, next) => {
             next();
         } else {
             next({
-                path: '/login',
+                path: '/Login',
                 params: {nextUrl: to.fullPath}
             })
         }

@@ -303,7 +303,7 @@
             addCrafter: function () {
                 if (this.$refs.addCrafterForm.validate()) {
                     axios
-                        .post(process.env.VUE_APP_API_PATH + '/crafting/crafter', {
+                        .post(process.env.VUE_APP_API_PATH + '/Crafting/crafter', {
                             data: {
                                 character: this.crafterToAdd.character.character_id,
                                 recipe: this.crafterToAdd.item.item_id
@@ -322,7 +322,7 @@
             addRecipe: function () {
                 if (this.$refs.addRecipeForm.validate()) {
                     axios
-                        .post(process.env.VUE_APP_API_PATH + '/crafting/recipe', {
+                        .post(process.env.VUE_APP_API_PATH + '/Crafting/recipe', {
                             data: this.recipeToAdd
                         })
                         .then(() => {
@@ -339,7 +339,7 @@
             loadCrafterData: function () {
 
                 axios
-                    .get(process.env.VUE_APP_API_PATH + '/crafting')
+                    .get(process.env.VUE_APP_API_PATH + '/Crafting')
                     .then(response => {
                         this.drops = response.data;
                         this.loading = false;

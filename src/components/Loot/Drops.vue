@@ -30,9 +30,18 @@
                 </v-tooltip>
             </template>
             <template v-slot:item.character_name="{ item }">
-                <div style="font-weight: bold" :class="'wow_' + item.character_class.toLowerCase()">
-                    {{item.character_name}}
+                <div v-if="item.character_status=== 1" style="font-weight: bold" :class="'wow_' + item.character_class.toLowerCase()">{{
+                    item.character_name
+                    }}
                 </div>
+                <v-tooltip top v-if="item.character_status=== 0">
+                    <template v-slot:activator="{ on }">
+                <div v-on="on"  style="font-weight: bold" class="guildless">
+                    {{item.character_name }}
+                </div>
+                    </template>
+                    <span>   {{item.character_name }} is no longer a keeper</span>
+                </v-tooltip>
             </template>
             <template v-slot:item.item_id="{ item }">
                 <a :href="'https://classic.wowhead.com/item=' + item.item_id"
@@ -41,6 +50,11 @@
             </template>
             <template v-slot:item.loot_type="{ item }">
                 {{getLootType(item.loot_type)}}
+            </template>
+            <template v-slot:item.loot_subcategory="{ item }">
+                <div :class="'loot_' + item.loot_subcategory">
+                {{getLootSubType(item.loot_subcategory)}}
+                </div>
             </template>
         </v-data-table>
     </div>
@@ -66,7 +80,8 @@
                     {text: '', value: 'character_class', width: 30},
                     {text: 'Character', value: 'character_name'},
                     {text: 'Item', value: 'item_id'},
-                    {text: 'Loot Type', value: 'loot_type'}
+                    {text: 'Loot Type', value: 'loot_type'},
+                    {text: 'Awarded For', value: 'loot_subcategory'}
                 ],
                 drops: [],
                 filter: '',
@@ -141,6 +156,18 @@
                         || item.character_name.toUpperCase().includes(search.toUpperCase())
                         || this.getLootType(item.loot_type).toUpperCase().includes(search.toUpperCase())
                     )
+            },
+            getLootSubType: function (loot_type) {
+                switch (loot_type) {
+                    case 1:
+                        return 'Mainspec/Need';
+                    case 2:
+                        return 'Minor Upgrade';
+                    case 3:
+                        return 'Offspec/Other';
+                    default:
+                        return ''
+                }
             },
         }
     }
