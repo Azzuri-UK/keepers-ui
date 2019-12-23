@@ -22,7 +22,7 @@ import RaidList from "./components/Raids/RaidList";
 import Login from "./components/Login/Login";
 import Bank from "./components/Bank/Bank";
 import Recruitment from "./components/Recruitment/Recruitment";
-
+import Error from "./components/Error/Error"
 
 
 const routes = [
@@ -36,7 +36,8 @@ const routes = [
     {name: 'crafting', path: '/Crafting', component: Crafting, meta: {requiresAuth: true}},
     {name: 'bank', path: '/bank', component: Bank, meta: {requiresAuth: true}},
     {name: 'about', path: '/about', component: Bank, meta: {requiresAuth: false}},
-    {name: 'recruitment', path: '/recruitment', component: Recruitment, meta: {requiresAuth: false}}
+    {name: 'recruitment', path: '/recruitment', component: Recruitment, meta: {requiresAuth: false}},
+    {name: 'error', path: '/error/:errorMessage', component: Error, props: true,meta: {requiresAuth: false}}
 ];
 
 const router = new VueRouter({
