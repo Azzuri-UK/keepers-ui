@@ -58,10 +58,10 @@
         </div>
 
         <v-row no-gutter>
-            <v-col cols="12" sm="4">
+            <v-col cols="12" sm="3">
                 <v-toolbar flat>
                     <v-toolbar-title>TANKS</v-toolbar-title>
-                    <v-btn v-show="raidOpen" v-on:click="showAddCharacterToRaid('tanks')" text icon color="green">
+                    <v-btn v-show="raidOpen" v-on:click="showAddCharacterRoleToRaid('tanks')" text icon color="green">
                         <v-icon>mdi-plus-box</v-icon>
                     </v-btn>
                     <v-spacer></v-spacer>
@@ -97,10 +97,10 @@
                     </template>
                 </v-simple-table>
             </v-col>
-            <v-col cols="12" sm="4">
+            <v-col cols="12" sm="3">
                 <v-toolbar flat>
                     <v-toolbar-title>HEALERS</v-toolbar-title>
-                    <v-btn v-show="raidOpen" v-on:click="showAddCharacterToRaid('healers')" text icon color="green">
+                    <v-btn v-show="raidOpen" v-on:click="showAddCharacterRoleToRaid('healers')" text icon color="green">
                         <v-icon>mdi-plus-box</v-icon>
                     </v-btn>
                     <v-spacer></v-spacer>
@@ -136,10 +136,10 @@
                     </template>
                 </v-simple-table>
             </v-col>
-            <v-col cols="12" sm="4">
+            <v-col cols="12" sm="3">
                 <v-toolbar flat>
                     <v-toolbar-title>DPS</v-toolbar-title>
-                    <v-btn v-show="raidOpen" v-on:click="showAddCharacterToRaid('damage')" text icon color="green">
+                    <v-btn v-show="raidOpen" v-on:click="showAddCharacterRoleToRaid('damage')" text icon color="green">
                         <v-icon>mdi-plus-box</v-icon>
                     </v-btn>
                     <v-spacer></v-spacer>
@@ -175,7 +175,45 @@
                     </template>
                 </v-simple-table>
             </v-col>
+            <v-col cols="12" sm="3">
+                <v-toolbar flat>
+                    <v-toolbar-title>BENCH</v-toolbar-title>
+                    <v-btn v-show="raidOpen" v-on:click="showAddCharacterToBench()" text icon color="green">
+                        <v-icon>mdi-plus-box</v-icon>
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                </v-toolbar>
+                <v-simple-table class="mx-2 my-2">
 
+                    <template>
+                        <tbody>
+                        <tr class="" v-for="item in bench" :key="item.character_id">
+                            <td width="30px">
+
+                                <v-tooltip bottom>
+                                    <template v-slot:activator="{ on }">
+                                        <v-img height="28px" width="28px" :src="getClassImage(item.character_class)"
+                                               v-on="on"></v-img>
+                                    </template>
+                                    <span>{{item.character_class}}</span>
+                                </v-tooltip>
+                            </td>
+                            <td>
+                                <div style="font-weight: bold" :class="'wow_' + item.character_class.toLowerCase()">{{
+                                    item.character_name }}
+                                </div>
+                            </td>
+                            <td width="50px">
+                                <v-btn v-show="raidOpen" v-on:click="deleteCharacterAttendance(item.character_id)" text
+                                       icon color="orange">
+                                    <v-icon>mdi-trash-can</v-icon>
+                                </v-btn>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </template>
+                </v-simple-table>
+            </v-col>
         </v-row>
         <v-dialog v-model="addDialog" persistent max-width="500">
             <v-card>
@@ -250,6 +288,7 @@
             "tanks": Array,
             "healers": Array,
             "damage": Array,
+            "bench": Array,
             "raidStatus": Number
         },
         data: () => {
@@ -316,7 +355,7 @@
                         return damageImage;
                 }
             },
-            showAddCharacterToRaid: function (role) {
+            showAddCharacterRoleToRaid: function (role) {
                 this.selected = [];
                 let apiRole;
                 switch (role) {
@@ -346,7 +385,36 @@
 
                     })
             },
+            showAddCharacterToBench: function () {
+                this.selected = [];
+                this.addDialog = true;
+                this.currentRole = 'Benched Character';
+                axios
+                    .get(process.env.VUE_APP_API_PATH + '/roster/')
+                    .then(response => {
+                        response.data.forEach((record, index) => {
+                            if (this.tanks.some(character => character.character_name === record.character_name)) {
+                                delete response.data[index];
+                            }
+                            if (this.damage.some(character => character.character_name === record.character_name)) {
+                                delete response.data[index];
+                            }
+                            if (this.healers.some(character => character.character_name === record.character_name)) {
+                                delete response.data[index];
+                            }
+                        });
+                        this.roster = response.data;
+                    })
+                    .catch(() => {
+
+                    })
+            },
             addCharactersToRaid: function () {
+                this.selected.forEach((char)=> {
+                    if (this.currentRole ==='Benched Character'){
+                       char.character_role = 'Bench'
+                    }
+                });
                 axios
                     .post(process.env.VUE_APP_API_PATH + '/raids/' + this.$route.params.raidId + '/attendance/', {
                         data: this.selected

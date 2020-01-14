@@ -257,13 +257,6 @@
             <template v-slot:item.action="{ item }">
                 <v-icon
                         small
-                        class="mr-2"
-                        @click="editItem(item)"
-                        color="orange"
-                >mdi-pencil
-                </v-icon>
-                <v-icon
-                        small
                         color="orange"
                         @click="showDeleteItem(item)"
                 >

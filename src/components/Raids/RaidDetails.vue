@@ -36,7 +36,7 @@
         </v-tab>
 
         <v-tab-item key="attendance">
-            <RaidAttendance :raidStatus="this.raid.raid_status" v-on:reloadAttendees="loadAttendanceData" :tanks="this.tank" :healers="this.healer" :damage="this.damage"/>
+            <RaidAttendance :raidStatus="this.raid.raid_status" v-on:reloadAttendees="loadAttendanceData" :bench="this.bench" :tanks="this.tank" :healers="this.healer" :damage="this.damage"/>
         </v-tab-item>
         <v-tab-item key="loot">
             <RaidLoot :raidStatus=this.raid.raid_status :attendees="attendees" :drops="drops"/>
@@ -66,6 +66,7 @@
                 tank: [],
                 healer: [],
                 damage: [],
+                bench: [],
                 attendees: [],
                 drops: [],
                 raid: {
@@ -126,7 +127,8 @@
                         let data = {
                             tank: [],
                             healer: [],
-                            damage: []
+                            damage: [],
+                            bench: []
                         };
                         response.data.forEach((character) => {
                             switch (character.role) {
@@ -138,11 +140,15 @@
                                     break;
                                 case 'Damage':
                                     data.damage.push(character);
+                                    break;
+                                case 'Bench':
+                                    data.bench.push(character);
                             }
                         });
                         this.tank = data.tank;
                         this.damage = data.damage;
                         this.healer = data.healer;
+                        this.bench = data.bench;
                         this.attendees = response.data;
                     })
                     .catch(() => {
