@@ -208,7 +208,10 @@
                     startDate: new Date().toISOString().substr(0, 10),
                 },
                 zones: [
-
+                    {
+                        zone_name: 'Blackwing Lair',
+                        zone_id: 'BWL'
+                    },
                     {
                         zone_name: 'Molten Core',
                         zone_id: 'MC'
@@ -216,7 +219,7 @@
                     {
                         zone_name: 'Onyxia',
                         zone_id: 'ONY'
-                    }
+                    },
                 ],
                 formRules: [
                     v => !!v || 'This field is required'

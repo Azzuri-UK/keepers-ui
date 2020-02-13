@@ -33,9 +33,9 @@
             <!--            <v-btn   @click="showBis" v-bind:class="{ 'selectedRoute': $route.path === '/Bis' }" text color="orange">-->
             <!--                BEST IN SLOT-->
             <!--            </v-btn>-->
-            <!--            <v-btn   @click="showBank" v-bind:class="{ 'selectedRoute': $route.path === '/bank' }" text color="orange">-->
-            <!--                GUILD BANK-->
-            <!--            </v-btn>-->
+                        <v-btn   @click="showBank" v-bind:class="{ 'selectedRoute': $route.path === '/bank' }" text color="orange">
+                            GUILD BANK
+                        </v-btn>
             <v-btn @click="showAbout" v-bind:class="{ 'selectedRoute': $route.path === '/about' }" text color="orange">
                 ABOUT
             </v-btn>

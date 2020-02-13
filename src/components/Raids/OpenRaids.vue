@@ -75,7 +75,7 @@
         },
         mounted() {
             axios
-                .get(process.env.VUE_APP_API_PATH + '/raids/open')
+                .get(process.env.VUE_APP_API_PATH + '/raids/upcoming')
                 .then(response => {
                     this.openRaids = response.data
                 })
