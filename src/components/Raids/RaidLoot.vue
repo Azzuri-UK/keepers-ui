@@ -195,7 +195,7 @@
                                             >
                                             </v-autocomplete>
                                         </v-row>
-                                        <v-row v-show="editedItem.loot_type ===3">
+                                        <v-row>
                                             <v-autocomplete
                                                     dark
                                                     color="orange"
@@ -353,7 +353,7 @@
                     item_id: 0,
                     item_name: '',
                     item_quality: 0,
-                    loot_type: 0,
+                    loot_type: 3,
                     loot_subcategory: 0,
                     notes: ''
                 },
@@ -362,20 +362,12 @@
                     item_id: 0,
                     item_name: '',
                     item_quality: 0,
-                    loot_type: 0,
+                    loot_type: 3,
                     loot_subcategory: 0,
                     notes: ''
                 },
                 selected: [],
                 lootTypes: [
-                    {
-                        text: 'Best in Slot',
-                        value: 1
-                    },
-                    {
-                        text: 'Free Roll',
-                        value: 2
-                    },
                     {
                         text: 'Loot Council',
                         value: 3
