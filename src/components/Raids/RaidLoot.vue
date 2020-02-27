@@ -386,6 +386,10 @@
                         text: 'Offspec/Other',
                         value: 3
                     },
+                    {
+                        text: 'Resist Gear',
+                        value: 4
+                    },
                 ],
                 isAddFormValid: false,
                 dropDownRules: [

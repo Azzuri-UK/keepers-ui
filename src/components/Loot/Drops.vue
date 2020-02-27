@@ -165,6 +165,8 @@
                         return 'Minor Upgrade';
                     case 3:
                         return 'Offspec/Other';
+                    case 4:
+                        return 'Resist Gear';
                     default:
                         return ''
                 }
