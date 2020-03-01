@@ -256,12 +256,23 @@
                         .then(() => {
                             this.loadRoster();
                             this.addCharacterDialog = false;
-                            this.characterToAdd = '';
+                            this.characterToAdd = {
+                                name: '',
+                                class: '',
+                                role: ''
+                            }
                         })
                         .catch(() => {
                             this.loadRoster();
                             this.importDialog = false;
-                            this.toBeImported = '';
+                            this.characterToAdd = {
+                                name: '',
+                                class: '',
+                                role: ''
+                            }
+                        })
+                        .finally(() => {
+                            this.resetValidation('importRosterForm')
                         });
                 }
             },
