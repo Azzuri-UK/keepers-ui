@@ -167,6 +167,8 @@
                         return 'Offspec/Other';
                     case 4:
                         return 'Resist Gear';
+                    case 5:
+                        return 'Disenchant';
                     default:
                         return ''
                 }

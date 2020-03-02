@@ -51,6 +51,10 @@
     color: #F58CBA;
 }
 
+.wow_disenchant {
+    color: RED;
+}
+
 .recentTable tr:hover {
     background-color: #424242 !important;
 }
