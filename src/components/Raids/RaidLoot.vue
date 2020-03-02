@@ -127,6 +127,14 @@
                                 <v-card-text>
                                     <v-container>
                                         <v-row>
+                                            <v-checkbox
+                                                    v-model="editedItem.disenchant"
+                                                    label="Disenchant"
+                                                    v-on:change="setLootWindow"
+                                            >
+                                            </v-checkbox>
+                                        </v-row>
+                                        <v-row>
                                             <v-autocomplete
                                                     v-model="editedItem.character_id"
                                                     item-text="character_name"
@@ -138,6 +146,7 @@
                                                     :return-object="returnObject"
                                                     required
                                                     :rules="dropDownRules"
+                                                    :disabled="editedItem.disenchant"
                                             >
                                                 <template slot="selection" slot-scope="data">
                                                     <div style="font-weight: bold"
@@ -192,6 +201,7 @@
                                                     label="Loot type"
                                                     required
                                                     :rules="dropDownRules"
+                                                    :disabled="editedItem.disenchant"
                                             >
                                             </v-autocomplete>
                                         </v-row>
@@ -207,13 +217,18 @@
                                                     label="Awarded for"
                                                     required
                                                     :rules="dropDownRules"
+                                                    :disabled="editedItem.disenchant"
                                             >
                                             </v-autocomplete>
                                         </v-row>
                                         <v-row>
 
-                                            <v-text-field color="orange" v-model="editedItem.calories"
-                                                          label="Notes"></v-text-field>
+                                            <v-text-field
+                                                    color="orange"
+                                                    v-model="editedItem.calories"
+                                                    label="Notes"
+                                                    :disabled="editedItem.disenchant"
+                                            ></v-text-field>
 
                                         </v-row>
                                     </v-container>
@@ -252,7 +267,9 @@
                 {{getLootType(item.loot_type)}}
             </template>
             <template v-slot:item.loot_subcategory="{ item }">
-                {{getLootSubType(item.loot_subcategory)}}
+                <div :class="'loot_' + item.loot_subcategory">
+                    {{getLootSubType(item.loot_subcategory)}}
+                </div>
             </template>
             <template v-slot:item.action="{ item }">
                 <v-icon
@@ -355,7 +372,8 @@
                     item_quality: 0,
                     loot_type: 3,
                     loot_subcategory: 0,
-                    notes: ''
+                    notes: '',
+                    disenchant: false
                 },
                 defaultItem: {
                     character_id: '',
@@ -461,6 +479,10 @@
                         return 'Minor Upgrade';
                     case 3:
                         return 'Offspec/Other';
+                    case 4:
+                        return 'Resist Gear';
+                    case 5:
+                        return 'Disenchanted';
                     default:
                         return ''
                 }
@@ -509,10 +531,14 @@
                 }, 300)
             },
             save() {
-                if (this.$refs.addLootForm.validate()) {
+                let item = this.editedItem;
+                if (item.disenchant===true){
+                    item.loot_subtype = 5;
+                }
+                if (this.$refs.addLootForm.validate() || item.disenchant===true) {
                     axios
                         .post(process.env.VUE_APP_API_PATH + '/raids/' + this.$route.params.raidId + '/loot/', {
-                            data: this.editedItem
+                            data: item
                         })
                         .then(() => {
                             this.editedItem = this.defaultItem;
@@ -525,6 +551,9 @@
                 }
 
             },
+            setLootWindow() {
+
+            }
         },
         computed: {
             formTitle() {

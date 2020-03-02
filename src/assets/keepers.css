@@ -93,15 +93,27 @@
 
 .loot_1 {
     font-weight: bold;
-    color: green
+    color: #00d600
 }
 
 .loot_2{
+    font-weight: bold;
     color: cyan;
 }
 
 .loot_3 {
+    font-weight: bold;
     color: orange;
+}
+
+.loot_4 {
+    font-weight: bold;
+    color: yellow;
+}
+
+.loot_5 {
+    font-weight: bold;
+    color: red;
 }
 
 .guildless {
