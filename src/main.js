@@ -7,6 +7,7 @@ import Vuex from 'vuex'
 import App from './App.vue'
 import vuetify from './plugins/vuetify';
 import VueRouter from 'vue-router';
+import VueClipboard from 'vue-clipboard2'
 
 Vue.config.productionTip = false
 
@@ -22,7 +23,9 @@ import RaidList from "./components/Raids/RaidList";
 import Login from "./components/Login/Login";
 import Bank from "./components/Bank/Bank";
 import Recruitment from "./components/Recruitment/Recruitment";
-import Error from "./components/Error/Error"
+import Error from "./components/Error/Error";
+import Macro from "./components/Macros/Macros"
+import About from "./components/About/About"
 
 
 const routes = [
@@ -35,9 +38,10 @@ const routes = [
     {name: 'bis', path: '/Bis', component: Bis, meta: {requiresAuth: true}},
     {name: 'crafting', path: '/Crafting', component: Crafting, meta: {requiresAuth: true}},
     {name: 'bank', path: '/bank', component: Bank, meta: {requiresAuth: true}},
-    {name: 'about', path: '/about', component: Bank, meta: {requiresAuth: false}},
+    {name: 'about', path: '/about', component: About, meta: {requiresAuth: false}},
     {name: 'recruitment', path: '/recruitment', component: Recruitment, meta: {requiresAuth: false}},
-    {name: 'error', path: '/error/:errorMessage', component: Error, props: true,meta: {requiresAuth: false}}
+    {name: 'error', path: '/error/:errorMessage', component: Error, props: true,meta: {requiresAuth: false}},
+    {name: 'macros', path: '/macros', component: Macro, props: true,meta: {requiresAuth: false}}
 ];
 
 const router = new VueRouter({
@@ -61,6 +65,7 @@ if (cookieCheck.hasOwnProperty('keepers-jwt')) {
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
+Vue.use(VueClipboard)
 
 const store = new Vuex.Store({
     state: {

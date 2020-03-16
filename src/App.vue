@@ -5,7 +5,7 @@
                 dark
         >
             <div class="d-flex align-center">
-                KEEPERS
+                KEEPERS - Hydraxian Waterlords
             </div>
 
             <v-spacer></v-spacer>
@@ -33,15 +33,19 @@
             <!--            <v-btn   @click="showBis" v-bind:class="{ 'selectedRoute': $route.path === '/Bis' }" text color="orange">-->
             <!--                BEST IN SLOT-->
             <!--            </v-btn>-->
-                        <v-btn   @click="showBank" v-bind:class="{ 'selectedRoute': $route.path === '/bank' }" text color="orange">
-                            GUILD BANK
-                        </v-btn>
+            <v-btn v-if="this.$store.getters.getRole != null" @click="showBank" v-bind:class="{ 'selectedRoute': $route.path === '/bank' }" text color="orange">
+                GUILD BANK
+            </v-btn>
+
             <v-btn @click="showAbout" v-bind:class="{ 'selectedRoute': $route.path === '/about' }" text color="orange">
                 ABOUT
             </v-btn>
             <v-btn @click="showRecruitment" v-bind:class="{ 'selectedRoute': $route.path === '/recruitment' }" text
                    color="orange">
                 RECRUITMENT
+            </v-btn>
+            <v-btn @click="showMacros" v-bind:class="{ 'selectedRoute': $route.path === '/bank' }" text color="orange">
+                MACROS
             </v-btn>
             <v-divider
                     vertical
@@ -112,6 +116,10 @@
             },
             showLogin: function () {
                 this.$router.push({path: '/login'}).catch(() => {
+                })
+            },
+            showMacros: function () {
+                this.$router.push({path: '/macros'}).catch(() => {
                 })
             },
             doLogout: function () {
