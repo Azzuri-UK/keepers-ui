@@ -61,6 +61,7 @@
 </template>
 
 <script>
+
     import axios from 'axios'
 
     let druidImage = require("@/assets/classes/wow_flat_druid.png");

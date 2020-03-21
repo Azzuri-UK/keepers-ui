@@ -24,6 +24,7 @@
                                     color="orange"
                                     dark
                                     v-on="on"
+                                    v-show="showUpdateButton"
                             >
                                 UPDATE GUILD BANK
                             </v-btn>
@@ -68,6 +69,11 @@
                     </v-dialog>
                 </v-toolbar>
             </template>
+            <template v-slot:item.item_name="{ item }">
+                <a :href="'https://classic.wowhead.com/item=' + item.item_id"
+                   style="font-weight: bold;text-decoration: none"
+                   :data-wowhead=item.item_id>{{item.item_name}}</a>
+            </template>
         </v-data-table>
     </div>
 </template>
@@ -90,16 +96,34 @@
                 hideHeader: false,
                 returnObject: false,
                 headers: [
-                    {text: 'Item', value: 'character_name'},
-                    {text: 'Quantity', value: 'item_id'}
+                    {text: 'Item', value: 'item_name'},
+                    {text: 'Quantity', value: 'quantity'}
                 ],
                 formRules: [
                     v => !!v || 'This field is required'
                 ]
             }
         },
+        mounted() {
+          this.loadBankData();
+            this.$nextTick(function () {
+                // Code that will run only after the
+                // entire view has been rendered
+            })
+        },
+        updated() {
+            this.$nextTick(function () {
+
+                    if(window.$WowheadPower) {
+                        window.$WowheadPower.refreshLinks()
+                    }
+
+            })
+
+        },
         methods: {
             loadBankData: function () {
+                this.loading = true;
                 axios
                     .get(process.env.VUE_APP_API_PATH + '/bank')
                     .then(response => {
@@ -119,6 +143,7 @@
                             this.$emit('reloadAttendees');
                             this.importDialog = false;
                             this.toBeImported = '';
+                            this.loadBankData()
                         })
                         .catch(() => {
                             this.importDialog = false;
@@ -126,6 +151,23 @@
                         });
                 }
             },
+            getItemClass: function (item_class) {
+                switch (item_class) {
+                    case 1:
+                        return 'q1';
+                    case 2:
+                        return 'q2';
+                    case 3:
+                        return 'q3';
+                    case 4:
+                        return 'q4';
+                    case 5:
+                        return 'q5'
+                }
+            },
+            showUpdateButton: function(){
+                return this.$store.getters.getRole==='OFFICER'
+            }
         }
     }
 </script>
