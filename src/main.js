@@ -43,7 +43,7 @@ const routes = [
     {name: 'recruitment', path: '/recruitment', component: Recruitment, meta: {requiresAuth: false}},
     {name: 'error', path: '/error/:errorMessage', component: Error, props: true,meta: {requiresAuth: false}},
     {name: 'macros', path: '/macros', component: Macro, props: true,meta: {requiresAuth: false}},
-    {name: 'list', path: '/list/:listId', component: PriorityDetails, props: true, meta: {requiresAuth: true}},
+    {name: 'list', path: '/loot/lists/:listId', component: PriorityDetails, props: true, meta: {requiresAuth: true}},
 ];
 
 const router = new VueRouter({

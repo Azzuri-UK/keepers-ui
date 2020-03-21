@@ -5,7 +5,7 @@
                 color="orange"
                 v-model="filter"
                 append-icon="mdi-magnify"
-                label="Search"
+                label="Search (Name or class)"
                 single-line
                 hide-details
                 :loading="loading"
