@@ -123,7 +123,7 @@
                 })
             },
             doLogout: function () {
-                document.cookie = "keepers-jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                document.cookie = "keepers-jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;domain=.classic-guilds.com";
                 window.location.reload()
             }
 
