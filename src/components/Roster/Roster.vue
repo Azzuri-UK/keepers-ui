@@ -301,10 +301,10 @@
         },
         computed: {
             canAddCharacter() {
-                return (this.$store.getters.getRole === 'OFFICERS')
+                return (this.$store.getters.getRole === 'OFFICER')
             },
             canImportRoster() {
-                return (this.$store.getters.getRole === 'OFFICERS')
+                return (this.$store.getters.getRole === 'OFFICER')
             }
         }
     }

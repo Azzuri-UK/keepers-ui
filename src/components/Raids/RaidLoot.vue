@@ -560,7 +560,7 @@
                 return this.editedIndex === -1 ? 'Add loot' : 'Edit loot'
             },
             raidOpen() {
-                return this.raidStatus === 1 && (this.$store.getters.getRole === 'OFFICERS')
+                return this.raidStatus === 1 && (this.$store.getters.getRole === 'OFFICER')
             },
             computedHeaders() {
                 if (this.raidOpen === true) {

@@ -360,10 +360,10 @@
         },
         computed: {
             canAddRecipe() {
-                return (this.$store.getters.getRole === 'OFFICERS')
+                return (this.$store.getters.getRole === 'OFFICER')
             },
             canAddCrafter() {
-                return (this.$store.getters.getRole === 'OFFICERS')
+                return (this.$store.getters.getRole === 'OFFICER')
             }
         }
     }

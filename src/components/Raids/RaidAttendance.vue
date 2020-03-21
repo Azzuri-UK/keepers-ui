@@ -471,7 +471,7 @@
         },
         computed: {
             raidOpen() {
-                return this.raidStatus === 1 && (this.$store.getters.getRole === 'OFFICERS')
+                return this.raidStatus === 1 && (this.$store.getters.getRole === 'OFFICER')
             }
         }
     }
