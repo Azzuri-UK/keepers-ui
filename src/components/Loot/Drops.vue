@@ -1,5 +1,5 @@
 <template>
-    <div align="center">
+    <div align="center" style="padding: 10px">
         <v-text-field
                 style="max-width: 1000px"
                 color="orange"
@@ -10,15 +10,14 @@
                 hide-details
                 :loading="loading"
                 loading-text="Loading... Please wait">
-        ></v-text-field>
+            >
+        </v-text-field>
         <v-data-table
                 :headers="headers"
                 :items="drops"
                 style="max-width: 1000px"
-                :hide-default-footer=hideFooter
-                :disable-pagination=disablePagination
-                :search="filter"
-                :custom-filter="lootFilter"
+                :items-per-page="itemsPerPage"
+                :footer-props="footerProps"
         >
             <template v-slot:item.character_class="{ item }">
                 <v-tooltip right>
@@ -30,17 +29,18 @@
                 </v-tooltip>
             </template>
             <template v-slot:item.character_name="{ item }">
-                <div v-if="item.character_status=== 1" style="font-weight: bold" :class="'wow_' + item.character_class.toLowerCase()">{{
+                <div v-if="item.character_status=== 1" style="font-weight: bold"
+                     :class="'wow_' + item.character_class.toLowerCase()">{{
                     item.character_name
                     }}
                 </div>
-                <v-tooltip top v-if="item.character_status=== 0">
+                <v-tooltip nudge-left="80" left v-if="item.character_status=== 0">
                     <template v-slot:activator="{ on }">
-                <div v-on="on"  style="font-weight: bold" class="guildless">
-                    {{item.character_name }}
-                </div>
+                        <div v-on="on" style="font-weight: bold;" class="guildless">
+                            {{item.character_name }}
+                        </div>
                     </template>
-                    <span>   {{item.character_name }} is no longer a keeper</span>
+                    <span>   {{item.character_name }} is no longer in the guild</span>
                 </v-tooltip>
             </template>
             <template v-slot:item.item_id="{ item }">
@@ -53,7 +53,7 @@
             </template>
             <template v-slot:item.loot_subcategory="{ item }">
                 <div :class="'loot_' + item.loot_subcategory">
-                {{getLootSubType(item.loot_subcategory)}}
+                    {{getLootSubType(item.loot_subcategory)}}
                 </div>
             </template>
         </v-data-table>
@@ -85,21 +85,15 @@
                 ],
                 drops: [],
                 filter: '',
-                disablePagination: true,
-                hideFooter: true,
-                loading: true
+                itemsPerPage: 25,
+                loading: true,
+                footerProps:{
+                    itemsPerPageOptions: [10,25,50]
+                }
             }
         },
         mounted() {
-            axios
-                .get(process.env.VUE_APP_API_PATH + '/loot?search=' + this.filter)
-                .then(response => {
-                    this.drops = response.data;
-                    this.loading = false;
-                })
-                .catch(() => {
-
-                })
+            this.getLoot()
         },
         methods: {
             getLootType: function (loot_type) {
@@ -148,15 +142,6 @@
                         return paladinImage;
                 }
             },
-            lootFilter(value, search, item) {
-                return value != null &&
-                    search != null &&
-                    typeof value === 'string' && (item.item_name.toUpperCase().includes(search.toUpperCase())
-                        || item.character_class.toUpperCase().includes(search.toUpperCase())
-                        || item.character_name.toUpperCase().includes(search.toUpperCase())
-                        || this.getLootType(item.loot_type).toUpperCase().includes(search.toUpperCase())
-                    )
-            },
             getLootSubType: function (loot_type) {
                 switch (loot_type) {
                     case 1:
@@ -173,6 +158,33 @@
                         return ''
                 }
             },
+            getLoot: function () {
+                if (this.cancelToken){
+                    let source = this.cancelToken.source();
+                    source.cancel();
+                } else {
+                    this.cancelToken =axios.CancelToken;
+                }
+                axios
+                    .get(process.env.VUE_APP_API_PATH + '/loot?search=' + this.filter)
+                    .then(response => {
+                        this.drops = response.data;
+                        this.loading = false;
+                    })
+                    .catch(() => {
+
+                    })
+            }
+        },
+        watch: {
+            filter: {
+                handler: function () {
+                    if (this.filter.length > 3 || this.filter.length === 0 ) {
+                        this.getLoot()
+                    }
+                },
+                immediate: false
+            }
         }
     }
 </script>

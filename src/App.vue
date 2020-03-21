@@ -5,7 +5,7 @@
                 dark
         >
             <div class="d-flex align-center">
-                KEEPERS - Hydraxian Waterlords
+                Five Gold - Hydraxian Waterlords
             </div>
 
             <v-spacer></v-spacer>

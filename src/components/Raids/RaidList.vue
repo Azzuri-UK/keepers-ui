@@ -1,7 +1,7 @@
 <template>
     <div align="center" style="padding-top: 20px">
         <div style="max-width: 1000px" align="right">
-            <v-btn v-show="this.$store.getters.getRole==='ARCHKEEPERS' || this.$store.getters.getRole==='KEEPERSCOUNCIL'" @click="createRaidDialog = true" color="orange">
+            <v-btn v-show="this.$store.getters.getRole==='OFFICERS'" @click="createRaidDialog = true" color="orange">
                 CREATE RAID
             </v-btn>
         </div>

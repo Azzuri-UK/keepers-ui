@@ -55,7 +55,7 @@
 
     let mcImage = require("@/assets/raids/mc3.jpg");
     let onyImage = require("@/assets/raids/ony3.jpg");
-    let bwlImage = require("@/assets/raids/BWL.jpg");
+    let bwlImage = require("@/assets/raids/bwl2.jpg");
 
     export default {
         name: "RaidDetails",
@@ -115,7 +115,7 @@
                     case 'ONY':
                         return "0% 25%";
                     case 'BWL':
-                        return "top";
+                        return "0% 25%";
                     default:
                         return "top";
                 }

@@ -9,7 +9,13 @@
             </thead>
             <tbody>
             <tr class="recentTable" v-for="item in loot" :key="item.loot_id + item.character_name">
-                <td width="50%"><div style="font-weight: bold" :class="'wow_' + item.character_class.toLowerCase()">{{ item.character_name }}</div></td>
+                <td v-if="item.character_status=== 1" width="50%"><div style="font-weight: bold" :class="'wow_' + item.character_class.toLowerCase()">{{ item.character_name }}</div></td>
+                <v-tooltip left v-if="item.character_status=== 0">
+                    <template v-slot:activator="{ on }">
+                <td v-on="on" v-if="item.character_status=== 0" width="50%"><div style="font-weight: bold" class="guildless">{{ item.character_name }}</div></td>
+                    </template>
+                    <span>   {{item.character_name }} is no longer in the guild</span>
+                </v-tooltip>
                 <td><a :href="'https://classic.wowhead.com/item=' + item.loot_id" style="font-weight: bold;text-decoration: none" :class="getItemClass(item.item_quality)" :data-wowhead=item.loot_id>{{item.item_name}}</a></td>
             </tr>
             </tbody>
