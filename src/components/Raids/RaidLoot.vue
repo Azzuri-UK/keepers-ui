@@ -225,7 +225,7 @@
 
                                             <v-text-field
                                                     color="orange"
-                                                    v-model="editedItem.calories"
+                                                    v-model="editedItem.notes"
                                                     label="Notes"
                                                     :disabled="editedItem.disenchant"
                                             ></v-text-field>
