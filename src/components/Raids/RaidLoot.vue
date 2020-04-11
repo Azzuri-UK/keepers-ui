@@ -16,104 +16,35 @@
             <template v-slot:top>
                 <v-toolbar flat>
                     <v-spacer></v-spacer>
-<!--                    <v-dialog persistent v-model="importLootDialog" max-width="500px">-->
-<!--                        <template v-slot:activator="{ on }">-->
-<!--                            <v-btn v-show="raidOpen" color="orange" dark class="mb-2 mr-2" v-on="on">Import loot</v-btn>-->
-<!--                        </template>-->
-<!--                        <v-form ref="addLootForm" v-model="isAddFormValid">-->
-<!--                            <v-card>-->
-<!--                                <v-card-title>-->
-<!--                                    <span class="headline">{{ formTitle }}</span>-->
-<!--                                </v-card-title>-->
+                    <v-dialog persistent v-model="importLootDialog" max-width="500px">
+                        <template v-slot:activator="{ on }">
+                            <v-btn v-show="raidOpen" color="orange" dark class="mb-2 mr-2" v-on="on">Import loot</v-btn>
+                        </template>
+                        <v-form ref="addLootForm" v-model="isAddFormValid">
+                            <v-card>
+                                <v-card-title>
+                                    <span class="headline">Import Loot</span>
+                                </v-card-title>
 
-<!--                                <v-card-text>-->
-<!--                                    <v-container>-->
-<!--                                        <v-row>-->
-<!--                                            <v-autocomplete-->
-<!--                                                    v-model="editedItem.character_id"-->
-<!--                                                    item-text="character_name"-->
-<!--                                                    item-value="character_id"-->
-<!--                                                    :items="attendees"-->
-<!--                                                    label="Character"-->
-<!--                                                    color="orange"-->
-<!--                                                    item-color="orange"-->
-<!--                                                    :return-object="returnObject"-->
-<!--                                                    required-->
-<!--                                                    :rules="dropDownRules"-->
-<!--                                            >-->
-<!--                                                <template slot="selection" slot-scope="data">-->
-<!--                                                    <div style="font-weight: bold"-->
-<!--                                                         :class="'wow_' + data.item.character_class.toLowerCase()">{{-->
-<!--                                                        data.item.character_name }}-->
-<!--                                                    </div>-->
-<!--                                                </template>-->
-<!--                                                <template slot="item" slot-scope="data">-->
-<!--                                                    <div style="font-weight: bold"-->
-<!--                                                         :class="'wow_' + data.item.character_class.toLowerCase()">{{-->
-<!--                                                        data.item.character_name }}-->
-<!--                                                    </div>-->
-<!--                                                </template>-->
-<!--                                            </v-autocomplete>-->
-<!--                                        </v-row>-->
-<!--                                        <v-row>-->
-<!--                                            <v-autocomplete-->
-<!--                                                    v-model="editedItem.item_id"-->
-<!--                                                    :items="drops"-->
-<!--                                                    label="Item"-->
-<!--                                                    color="orange"-->
-<!--                                                    item-color="orange"-->
-<!--                                                    item-text="item_name"-->
-<!--                                                    item-value="item_id"-->
-<!--                                                    :return-object="returnObject"-->
-<!--                                                    required-->
-<!--                                                    :rules="dropDownRules"-->
-<!--                                            >-->
-<!--                                                <template slot="selection" slot-scope="data">-->
-<!--                                                    <div style="font-weight: bold"-->
-<!--                                                         :class="'q' + data.item.item_quality">{{-->
-<!--                                                        data.item.item_name }}-->
-<!--                                                    </div>-->
-<!--                                                </template>-->
-<!--                                                <template slot="item" slot-scope="data">-->
-<!--                                                    <div style="font-weight: bold"-->
-<!--                                                         :class="'q' + data.item.item_quality">{{-->
-<!--                                                        data.item.item_name }}-->
-<!--                                                    </div>-->
-<!--                                                </template>-->
-<!--                                            </v-autocomplete>-->
-<!--                                        </v-row>-->
-<!--                                        <v-row>-->
-<!--                                            <v-autocomplete-->
-<!--                                                    dark-->
-<!--                                                    color="orange"-->
-<!--                                                    v-model="editedItem.loot_type"-->
-<!--                                                    item-text="text"-->
-<!--                                                    item-value="value"-->
-<!--                                                    :items="lootTypes"-->
-<!--                                                    item-color="orange"-->
-<!--                                                    label="Loot type"-->
-<!--                                                    required-->
-<!--                                                    :rules="dropDownRules"-->
-<!--                                            >-->
-<!--                                            </v-autocomplete>-->
-<!--                                        </v-row>-->
-<!--                                        <v-row>-->
+                                <v-card-text>
+                                    <v-container>
+                                        <v-card-text style="padding: 20px">
+                                            Paste in a list the full export text from RC Loot Council
+                                            <v-textarea v-model="lootToBeImported" style="margin: 10px" color="orange"
+                                                        filled required
+                                                        :rules="formRules"></v-textarea>
+                                        </v-card-text>
+                                    </v-container>
+                                </v-card-text>
 
-<!--                                            <v-text-field color="orange" v-model="editedItem.calories"-->
-<!--                                                          label="Notes"></v-text-field>-->
-
-<!--                                        </v-row>-->
-<!--                                    </v-container>-->
-<!--                                </v-card-text>-->
-
-<!--                                <v-card-actions>-->
-<!--                                    <v-spacer></v-spacer>-->
-<!--                                    <v-btn color="red" text @click="close">Cancel</v-btn>-->
-<!--                                    <v-btn color="green" text @click="save">Save</v-btn>-->
-<!--                                </v-card-actions>-->
-<!--                            </v-card>-->
-<!--                        </v-form>-->
-<!--                    </v-dialog>-->
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn color="red" text @click="closeImport">Cancel</v-btn>
+                                    <v-btn color="green" text @click="importLoot">Import</v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-form>
+                    </v-dialog>
                     <v-dialog persistent v-model="dialog" max-width="500px">
                         <template v-slot:activator="{ on }">
                             <v-btn v-show="raidOpen" color="orange" dark class="mb-2" v-on="on">Add loot</v-btn>
@@ -130,7 +61,7 @@
                                             <v-checkbox
                                                     v-model="editedItem.disenchant"
                                                     label="Disenchant"
-                                                    v-on:change="setLootWindow"
+                                                    :disabled="editedItem.id !==null"
                                             >
                                             </v-checkbox>
                                         </v-row>
@@ -146,7 +77,7 @@
                                                     :return-object="returnObject"
                                                     required
                                                     :rules="dropDownRules"
-                                                    :disabled="editedItem.disenchant"
+                                                    :disabled="editedItem.disenchant  || editedItem.id !==null"
                                             >
                                                 <template slot="selection" slot-scope="data">
                                                     <div style="font-weight: bold"
@@ -174,6 +105,7 @@
                                                     :return-object="returnObject"
                                                     required
                                                     :rules="dropDownRules"
+                                                    :disabled="editedItem.id !==null"
                                             >
                                                 <template slot="selection" slot-scope="data">
                                                     <div style="font-weight: bold"
@@ -189,7 +121,7 @@
                                                 </template>
                                             </v-autocomplete>
                                         </v-row>
-                                        <v-row>
+                                        <v-row v-if="editedItem.id !==null">
                                             <v-autocomplete
                                                     dark
                                                     color="orange"
@@ -201,7 +133,7 @@
                                                     label="Loot type"
                                                     required
                                                     :rules="dropDownRules"
-                                                    :disabled="editedItem.disenchant"
+                                                    :disabled="editedItem.disenchant || editedItem.id !==null"
                                             >
                                             </v-autocomplete>
                                         </v-row>
@@ -209,7 +141,7 @@
                                             <v-autocomplete
                                                     dark
                                                     color="orange"
-                                                    v-model="editedItem.loot_subtype"
+                                                    v-model="editedItem.loot_subcategory"
                                                     item-text="text"
                                                     item-value="value"
                                                     :items="lootSubTypes"
@@ -222,14 +154,21 @@
                                             </v-autocomplete>
                                         </v-row>
                                         <v-row>
-
                                             <v-text-field
                                                     color="orange"
                                                     v-model="editedItem.notes"
                                                     label="Notes"
                                                     :disabled="editedItem.disenchant"
                                             ></v-text-field>
-
+                                        </v-row>
+                                        <v-row v-if="editedItem.id !==null">
+                                            <v-text-field
+                                                    :rules="formRules"
+                                                    color="orange"
+                                                    v-model="editedItem.reason"
+                                                    label="Reason for edit"
+                                                    :disabled="editedItem.disenchant"
+                                            ></v-text-field>
                                         </v-row>
                                     </v-container>
                                 </v-card-text>
@@ -280,6 +219,14 @@
                     mdi-delete
                 </v-icon>
 
+                <v-icon
+                        small
+                        color="orange"
+                        @click="editItem(item)"
+
+                >
+                    mdi-pencil
+                </v-icon>
 
             </template>
         </v-data-table>
@@ -287,42 +234,52 @@
                 v-model="deleteDialog"
                 width="500"
         >
-
-            <v-card>
-                <v-card-title
-                        class="headline orange"
-                        primary-title
-                >
-                    Delete Item
-                </v-card-title>
-
-                <v-card-text style="vertical-align: middle;padding: 20px">
-                    Are you sure you want to remove <span style="font-weight: bold"
-                                                          :class="'q' + deletedItem.item_quality">{{this.deletedItem.item_name}}</span>
-                    from <span style="font-weight: bold"
-                               :class="'wow_' + this.deletedItem.character_class.toLowerCase()">{{this.deletedItem.character_name}}</span>
-                </v-card-text>
-
-                <v-divider></v-divider>
-
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                            color="green"
-                            text
-                            @click="deleteDialog = false"
+            <v-form ref="deleteLootForm" v-model="isDeleteFormValid">
+                <v-card>
+                    <v-card-title
+                            class="headline orange"
+                            primary-title
                     >
-                        cancel
-                    </v-btn>
-                    <v-btn
-                            color="red"
-                            text
-                            @click="deleteItem"
-                    >
-                        Remove
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
+                        Delete Item
+                    </v-card-title>
+
+                    <v-card-text style="vertical-align: middle;padding: 10px">
+                        Are you sure you want to remove <span style="font-weight: bold"
+                                                              :class="'q' + deletedItem.item_quality">{{this.deletedItem.item_name}}</span>
+                        from <span style="font-weight: bold"
+                                   :class="'wow_' + this.deletedItem.character_class.toLowerCase()">{{this.deletedItem.character_name}}</span>
+                    </v-card-text>
+                    <v-card-text style="vertical-align: middle;padding: 10px">
+                        Please enter the reason why this item is being removed
+                    </v-card-text>
+                    <v-text-field
+                            class="pa-5"
+                            color="orange"
+                            v-model="deletedItem.reason"
+                            label="Reason"
+                            :rules="formRules"
+                    ></v-text-field>
+                    <v-divider></v-divider>
+
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                                color="green"
+                                text
+                                @click="deleteDialog = false"
+                        >
+                            cancel
+                        </v-btn>
+                        <v-btn
+                                color="red"
+                                text
+                                @click="deleteItem"
+                        >
+                            Remove
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-form>
         </v-dialog>
     </div>
 </template>
@@ -357,15 +314,19 @@
                 damageImage: damageImage,
                 dialog: false,
                 deleteDialog: false,
+                editDialog: false,
                 currentRole: '',
                 deletedItem: {
                     character_name: '',
                     character_class: '',
                     item_name: '',
-                    item_quality: ''
+                    item_quality: '',
+                    id: null,
+                    reason: ''
                 },
                 editedIndex: -1,
                 editedItem: {
+                    id: null,
                     character_id: '',
                     item_id: 0,
                     item_name: '',
@@ -373,7 +334,8 @@
                     loot_type: 3,
                     loot_subcategory: 0,
                     notes: '',
-                    disenchant: false
+                    disenchant: false,
+                    reason: ''
                 },
                 defaultItem: {
                     character_id: '',
@@ -382,7 +344,9 @@
                     item_quality: 0,
                     loot_type: 3,
                     loot_subcategory: 0,
-                    notes: ''
+                    notes: '',
+                    reason: '',
+                    id:null
                 },
                 selected: [],
                 lootTypes: [
@@ -410,10 +374,14 @@
                     },
                 ],
                 isAddFormValid: false,
+                isDeleteFormValid: false,
                 dropDownRules: [
                     v => !!v || 'This field is required'
                 ],
-                importLootDialog: false
+                importLootDialog: false,
+                formRules: [
+                    v => !!v || 'This field is required'
+                ]
             }
         },
         mounted() {
@@ -502,6 +470,7 @@
                 }
             },
             editItem(item) {
+                //eslint-disable-next-line
                 this.editedIndex = this.loot.indexOf(item);
                 this.editedItem = Object.assign({}, item);
                 this.dialog = true
@@ -511,49 +480,70 @@
                 this.deletedItem = item;
             },
             deleteItem() {
-                axios
-                    .delete(process.env.VUE_APP_API_PATH + '/raids/' + this.$route.params.raidId + '/loot/', {
-                        data: this.deletedItem
-                    })
-                    .then(() => {
-                        this.loadLootData();
-                        this.deleteDialog = false;
-                    })
-                    .catch(() => {
+                if (this.$refs.deleteLootForm.validate()) {
+                    axios
+                        .delete(process.env.VUE_APP_API_PATH + '/raids/' + this.$route.params.raidId + '/loot/', {
+                            data: this.deletedItem
+                        })
+                        .then(() => {
+                            this.loadLootData();
+                            this.deleteDialog = false;
+                        })
+                        .catch(() => {
 
-                    });
+                        });
+                }
             },
             close() {
                 this.dialog = false;
                 setTimeout(() => {
                     this.editedItem = Object.assign({}, this.defaultItem)
                     this.editedIndex = -1
+                    this.$refs.addLootForm.reset()
                 }, 300)
+            },
+            closeImport() {
+                this.importLootDialog = false;
+            },
+            importLoot() {
+
             },
             save() {
                 let item = this.editedItem;
-                if (item.disenchant===true){
+                if (item.disenchant === true) {
                     item.loot_subtype = 5;
                 }
-                if (this.$refs.addLootForm.validate() || item.disenchant===true) {
-                    axios
-                        .post(process.env.VUE_APP_API_PATH + '/raids/' + this.$route.params.raidId + '/loot/', {
-                            data: item
-                        })
-                        .then(() => {
-                            this.editedItem = this.defaultItem;
-                            this.loadLootData();
-                            this.close();
-                        })
-                        .catch(() => {
+                if (this.$refs.addLootForm.validate() || item.disenchant === true) {
+                    if (item.id === null) {
+                        axios
+                            .post(process.env.VUE_APP_API_PATH + '/raids/' + this.$route.params.raidId + '/loot/', {
+                                data: item
+                            })
+                            .then(() => {
+                                this.editedItem = this.defaultItem;
+                                this.loadLootData();
+                                this.close();
+                            })
+                            .catch(() => {
 
-                        });
+                            });
+                    } else {
+                        axios
+                            .put(process.env.VUE_APP_API_PATH + '/raids/' + this.$route.params.raidId + '/loot/' + item.id, {
+                                data: item
+                            })
+                            .then(() => {
+                                this.editedItem = this.defaultItem;
+                                this.loadLootData();
+                                this.close();
+                            })
+                            .catch(() => {
+
+                            });
+                    }
                 }
 
             },
-            setLootWindow() {
-
-            }
         },
         computed: {
             formTitle() {
@@ -570,7 +560,7 @@
                         {text: 'Item', value: 'item_id'},
                         {text: 'Loot Type', value: 'loot_type'},
                         {text: 'Awarded for', value: 'loot_subcategory'},
-                        {text: 'Actions', value: 'action', sortable: false, width: 50},
+                        {text: 'Actions', value: 'action', sortable: false, width: 75},
                     ]
                 } else {
                     return [

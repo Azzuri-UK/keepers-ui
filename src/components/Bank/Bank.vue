@@ -96,8 +96,9 @@
                 hideHeader: false,
                 returnObject: false,
                 headers: [
-                    {text: 'Item', value: 'item_name'},
-                    {text: 'Quantity', value: 'quantity'}
+                    {text: 'Item', value: 'item_name',sortable: false},
+                    {text: 'Reputation', value: 'rep_total',sortable: false},
+                    {text: 'Quantity', value: 'quantity',sortable: false}
                 ],
                 formRules: [
                     v => !!v || 'This field is required'
