@@ -5,7 +5,6 @@
                     v-model="importDialog"
                     width="500"
             >
-
                     <template v-slot:activator="{ on }">
                         <v-btn
                                 color="orange"
@@ -24,10 +23,16 @@
                         >
                             Import Raid Attendees
                         </v-card-title>
-
-                        <v-card-text style="padding: 20px">
-                            Paste in a list of semi-colon separated character names ie: Azzuri;Shínná;
-                            <v-textarea v-model="toBeImported" style="margin: 10px" color="orange" filled required
+                        <v-radio-group  class="pl-5" v-model="importType" row>
+                            <v-radio color="orange" label="CSV" value="CSV"></v-radio>
+                            <v-radio color="orange" label="ATGC" value="ATGC"></v-radio>
+                            <v-radio color="orange"  label="MRT" value="MRT"></v-radio>
+                        </v-radio-group>
+                        <v-card-text class="pl-5">
+                            <span v-if="importType==='CSV'">Paste in a list of comma separated character names ie: Azzuri,Shínná</span>
+                            <span v-if="importType==='ATGC'">Paste in the output of /atgc <a target="_blank" href="https://www.curseforge.com/wow/addons/at-raid-export">https://www.curseforge.com/wow/addons/at-raid-export</a></span>
+                            <span v-if="importType==='MRT'">Paste in the output of an "Export H" from /mrt  <br> Output must be set to plain text <a target="_blank" href="https://www.curseforge.com/wow/addons/mizusraidtracker">https://www.curseforge.com/wow/addons/mizusraidtracker</a></span>
+                            <v-textarea class="mt-5" v-model="toBeImported"  color="orange" filled required
                                         :rules="formRules"></v-textarea>
                         </v-card-text>
 
@@ -320,7 +325,8 @@
                 disablePagination: true,
                 formRules: [
                     v => !!v || 'This field is required'
-                ]
+                ],
+                importType: 'CSV'
             }
         },
 
@@ -441,7 +447,10 @@
                 if (this.$refs.importRaidForm.validate()) {
                     axios
                         .post(process.env.VUE_APP_API_PATH + '/raids/' + this.$route.params.raidId + '/attendance/import', {
-                            data: this.toBeImported
+
+                                import: this.toBeImported,
+                                mode: this.importType
+
                         })
                         .then(() => {
                             this.$emit('reloadAttendees');

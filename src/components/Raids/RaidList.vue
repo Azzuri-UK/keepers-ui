@@ -178,6 +178,7 @@
     let mcImage = require("@/assets/raids/MC.jpg");
     let onyImage = require("@/assets/raids/ONY.jpg");
     let bwlImage = require("@/assets/raids/BWL.jpg");
+    let zgImage = require("@/assets/raids/ZG.jpg");
     let tankImage = require("@/assets/roles/Tank.png");
     let healerImage = require("@/assets/roles/Healer.png");
     let damageImage = require("@/assets/roles/Damage.png");
@@ -220,6 +221,10 @@
                         zone_name: 'Onyxia',
                         zone_id: 'ONY'
                     },
+                    {
+                        zone_name: "Zul'Gurub",
+                        zone_id: 'ZG'
+                    },
                 ],
                 formRules: [
                     v => !!v || 'This field is required'
@@ -259,6 +264,8 @@
                         return 'Onyxia\'s Lair';
                     case 'BWL':
                         return 'Blackwing Lair';
+                    case 'ZG':
+                        return "Zul'Gurub";
                     default:
 
                 }
@@ -271,6 +278,8 @@
                         return onyImage;
                     case 'BWL':
                         return bwlImage;
+                    case 'ZG':
+                        return zgImage;
                     default:
                 }
             },
@@ -282,6 +291,8 @@
                         return "0% 27%";
                     case 'BWL':
                         return "0% 50%";
+                    case 'ZG':
+                        return "0% 47%";
                     default:
                         return "top";
                 }

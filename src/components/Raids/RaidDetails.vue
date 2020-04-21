@@ -56,6 +56,7 @@
     let mcImage = require("@/assets/raids/mc3.jpg");
     let onyImage = require("@/assets/raids/ony3.jpg");
     let bwlImage = require("@/assets/raids/bwl2.jpg");
+    let zgImage = require("@/assets/raids/zg3.jpg");
 
     export default {
         name: "RaidDetails",
@@ -90,6 +91,8 @@
                         return 'Onyxia\'s Lair';
                     case 'BWL':
                         return 'Blackwing Lair';
+                    case 'ZG':
+                        return "Zul'Gurub";
                     default:
 
                 }
@@ -102,6 +105,8 @@
                         return onyImage;
                     case 'BWL':
                         return bwlImage;
+                    case 'ZG':
+                        return zgImage;
                     default:
                 }
             },
@@ -115,6 +120,8 @@
                     case 'ONY':
                         return "0% 25%";
                     case 'BWL':
+                        return "0% 25%";
+                    case 'ZG':
                         return "0% 25%";
                     default:
                         return "top";

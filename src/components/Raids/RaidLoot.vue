@@ -381,7 +381,8 @@
                 importLootDialog: false,
                 formRules: [
                     v => !!v || 'This field is required'
-                ]
+                ],
+                lootToBeImported: []
             }
         },
         mounted() {
