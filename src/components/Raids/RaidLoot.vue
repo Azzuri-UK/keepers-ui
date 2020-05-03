@@ -20,7 +20,7 @@
                         <template v-slot:activator="{ on }">
                             <v-btn v-show="raidOpen" color="orange" dark class="mb-2 mr-2" v-on="on">Import loot</v-btn>
                         </template>
-                        <v-form ref="addLootForm" v-model="isAddFormValid">
+                        <v-form ref="importLootForm" v-model="isImportFormValid">
                             <v-card>
                                 <v-card-title>
                                     <span class="headline">Import Loot</span>
@@ -40,7 +40,7 @@
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
                                     <v-btn color="red" text @click="closeImport">Cancel</v-btn>
-                                    <v-btn color="green" text @click="importLoot">Import</v-btn>
+                                    <v-btn :disabled="isImportButtonDisabled"  color="green" text @click="importLoot">Import</v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-form>
@@ -374,6 +374,7 @@
                     },
                 ],
                 isAddFormValid: false,
+                isImportFormValid: false,
                 isDeleteFormValid: false,
                 dropDownRules: [
                     v => !!v || 'This field is required'
@@ -382,7 +383,8 @@
                 formRules: [
                     v => !!v || 'This field is required'
                 ],
-                lootToBeImported: []
+                lootToBeImported: null,
+                isImportButtonDisabled: false
             }
         },
         mounted() {
@@ -507,7 +509,31 @@
                 this.importLootDialog = false;
             },
             importLoot() {
+                if (this.$refs.importLootForm.validate()) {
+                    this.isImportButtonDisabled = true;
+                    axios
+                        .post(process.env.VUE_APP_API_PATH + '/raids/' + this.$route.params.raidId + '/loot/import', {
+                            data: this.lootToBeImported
+                        })
+                        .then(() => {
+                            this.$emit('reloadAttendees');
 
+                            setTimeout(() => {
+                                this.loadLootData();
+                                this.closeImport();
+                                this.lootToBeImported = null
+                                this.isImportButtonDisabled = true;
+                                }, 2000);
+                        })
+                        .catch(() => {
+                            this.closeImport();
+                            this.lootToBeImported = null;
+
+                        });
+                } else {
+                    //eslint-disable-next-line
+                    console.log('form not valid')
+                }
             },
             save() {
                 let item = this.editedItem;

@@ -75,8 +75,6 @@
         }),
         methods: {
             showRaidList: function () {
-                //eslint-disable-next-line
-                console.log('raid list')
                 this.$router.push({path: '/raids'}).catch(() => {
                 })
             },
