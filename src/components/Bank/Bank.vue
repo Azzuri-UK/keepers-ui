@@ -74,6 +74,9 @@
                    style="font-weight: bold;text-decoration: none"
                    :data-wowhead=item.item_id>{{item.item_name}}</a>
             </template>
+            <template v-slot:item.updated="{ item }">
+                {{relativeTime(item.update)}}
+            </template>
         </v-data-table>
     </div>
 </template>
@@ -81,7 +84,7 @@
 
 <script>
     import axios from 'axios'
-
+    import moment from 'moment'
     export default {
         name: "GuildBank",
         props: ["attendees", "drops", "raidStatus"],
@@ -98,7 +101,9 @@
                 headers: [
                     {text: 'Item', value: 'item_name',sortable: false},
                     {text: 'Reputation', value: 'rep_total',sortable: false},
-                    {text: 'Quantity', value: 'quantity',sortable: false}
+                    {text: 'Quantity', value: 'quantity',sortable: false},
+                    {text: 'Banker', value: 'bank_char',sortable: false},
+                    {text: 'Updated', value: 'updated',sortable: false}
                 ],
                 formRules: [
                     v => !!v || 'This field is required'
@@ -168,6 +173,9 @@
             },
             showUpdateButton: function(){
                 return this.$store.getters.getRole==='OFFICER'
+            },
+            relativeTime: function (updateDate) {
+                return moment(updateDate).fromNow();
             }
         }
     }
