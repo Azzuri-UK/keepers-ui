@@ -161,6 +161,18 @@
                         text: 'Role',
                         value: 'character_role'
                     },
+                    {
+                        text: 'Effort Points',
+                        value: 'effort_points'
+                    },
+                    {
+                        text: 'Gear Points',
+                        value: 'gear_points'
+                    },
+                    {
+                        text: 'Priority',
+                        value: 'priority'
+                    }
                 ],
                 items: [],
                 itemsPerPage: -1,
@@ -278,7 +290,7 @@
             },
             loadRoster: function () {
                 axios
-                    .get(process.env.VUE_APP_API_PATH + '/roster')
+                    .get(process.env.VUE_APP_API_PATH + '/roster/epgp')
                     .then(response => {
                         this.items = response.data;
                         this.loading = false;
