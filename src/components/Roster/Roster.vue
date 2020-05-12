@@ -5,6 +5,9 @@
             <v-btn v-show="canImportRoster" @click="importDialog = true" style="margin-left: 10px" color="orange">IMPORT
                 ROSTER
             </v-btn>
+            <v-btn v-show="canExportEPGP" @click="exportDialog = true" style="margin-left: 10px" color="orange">EXPORT
+                EPGP
+            </v-btn>
         </div>
         <v-text-field
                 style="max-width: 1000px"
@@ -126,6 +129,32 @@
                 </v-card>
             </v-form>
         </v-dialog>
+        <v-dialog v-model="exportDialog" persistent max-width="500">
+            <v-form ref="exportEpgpForm">
+                <v-card>
+                    <v-form ref="importRosterForm">
+                        <v-card-title class="headline orange" primary-title>
+                            Import Roster
+                        </v-card-title>
+
+                        <v-card-text style="padding: 20px">
+                            Copy the following text into the import of CEP
+                            <v-textarea v-model="exportCsv" style="margin: 10px" color="orange" filled required
+                                        readonly></v-textarea>
+                        </v-card-text>
+
+                        <v-divider></v-divider>
+
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="green" text @click="closeEpgpExport">
+                                Close
+                            </v-btn>
+                        </v-card-actions>
+                    </v-form>
+                </v-card>
+            </v-form>
+        </v-dialog>
     </div>
 </template>
 
@@ -206,6 +235,8 @@
                 formRules: [
                     v => !!v || 'This field is required'
                 ],
+                exportDialog: false,
+                exportCsv: ''
             }
         },
         mounted() {
@@ -293,6 +324,13 @@
                     .get(process.env.VUE_APP_API_PATH + '/roster/epgp')
                     .then(response => {
                         this.items = response.data;
+                        let characters = '';
+                        for (let character of response.data){
+                            if (character.effort_points > 30) {
+                                characters += character.character_name + ',' + character.effort_points + ',' + character.gear_points + ',' + "\n"
+                            }
+                        }
+                        this.exportCsv =  characters
                         this.loading = false;
                     })
                     .catch(() => {
@@ -309,6 +347,10 @@
             closeImportRosterDialog: function(){
                 this.importDialog = false;
                 this.resetValidation('importRosterForm')
+            },
+            closeEpgpExport: function(){
+                this.exportDialog = false;
+                this.resetValidation('exportEpgpForm')
             }
         },
         computed: {
@@ -317,8 +359,11 @@
             },
             canImportRoster() {
                 return (this.$store.getters.getRole === 'OFFICER')
-            }
-        }
+            },
+            canExportEPGP(){
+                return (this.$store.getters.getRole === 'OFFICER')
+            },
+        },
     }
 </script>
 
