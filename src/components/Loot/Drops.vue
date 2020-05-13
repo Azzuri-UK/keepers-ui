@@ -53,7 +53,7 @@
             </template>
             <template v-slot:item.loot_subcategory="{ item }">
                 <div :class="'loot_' + item.loot_subcategory">
-                    {{getLootSubType(item.loot_subcategory)}}
+                    {{getLootSubType(item.loot_subcategory,item.loot_type)}}
                 </div>
             </template>
             <template v-slot:item.raid_date="{ item }">
@@ -380,6 +380,8 @@
                         return 'Free Roll';
                     case 3:
                         return 'Loot Council';
+                        case 4:
+                            return 'EPGP'
                     default:
                         return '';
                 }
@@ -418,21 +420,42 @@
                         return paladinImage;
                 }
             },
-            getLootSubType: function (loot_type) {
+            getLootSubType: function (loot_subtype,loot_type) {
                 switch (loot_type) {
                     case 1:
-                        return 'Mainspec/Need';
+                        return 'Best in Slot';
                     case 2:
-                        return 'Minor Upgrade';
+                        return 'Free Roll';
                     case 3:
-                        return 'Offspec/Other';
+                        switch (loot_subtype) {
+                            case 1:
+                                return 'Mainspec/Need';
+                            case 2:
+                                return 'Minor Upgrade';
+                            case 3:
+                                return 'Offspec/Other';
+                            case 4:
+                                return 'Resist Gear';
+                            case 5:
+                                return 'Disenchanted';
+                            default:
+                                return ''
+                        }
                     case 4:
-                        return 'Resist Gear';
-                    case 5:
-                        return 'Disenchant';
-                    default:
-                        return ''
+                        switch (loot_subtype) {
+                            case 1:
+                                return 'Need';
+                            case 2:
+                                return 'Minor Upgrade';
+                            case 3:
+                                return 'Offspec';
+                            case 5:
+                                return 'Disenchanted';
+                            default:
+                                return ''
+                        }
                 }
+
             },
             getLoot: function () {
                 if (this.cancelToken) {
