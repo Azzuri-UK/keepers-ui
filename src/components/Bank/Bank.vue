@@ -74,6 +74,9 @@
                    style="font-weight: bold;text-decoration: none"
                    :data-wowhead=item.item_id>{{item.item_name}}</a>
             </template>
+            <template v-slot:item.bank_char="{ item }">
+                <span :style="getCharacterColour(item.bank_char)">{{item.bank_char}}</span>
+            </template>
             <template v-slot:item.updated="{ item }">
                 {{relativeTime(item.updated)}}
             </template>
@@ -85,6 +88,7 @@
 <script>
     import axios from 'axios'
     import moment from 'moment'
+    import stc from 'string-to-color'
     export default {
         name: "GuildBank",
         props: ["attendees", "drops", "raidStatus"],
@@ -177,6 +181,9 @@
             relativeTime: function (updateDate) {
                 let updated = moment(parseInt(updateDate));
                 return updated.fromNow();
+            },
+            getCharacterColour: function(bank_char){
+                return "font-weight: bold; color: " + stc(bank_char);
             }
         }
     }
