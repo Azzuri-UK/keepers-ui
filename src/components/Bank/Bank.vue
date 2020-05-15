@@ -1,5 +1,17 @@
 <template>
     <div align="center" style="padding-top: 10px">
+        <v-text-field
+                style="max-width: 1000px"
+                color="orange"
+                v-model="filter"
+                append-icon="mdi-magnify"
+                label="Search (item name)"
+                single-line
+                hide-details
+                :loading="loading"
+                loading-text="Loading... Please wait">
+            >
+        </v-text-field>
         <v-data-table
                 style="max-width: 1000px"
                 :headers="headers"
@@ -111,7 +123,9 @@
                 ],
                 formRules: [
                     v => !!v || 'This field is required'
-                ]
+                ],
+                filter: '',
+                loading: true,
             }
         },
         mounted() {
@@ -135,9 +149,10 @@
             loadBankData: function () {
                 this.loading = true;
                 axios
-                    .get(process.env.VUE_APP_API_PATH + '/bank')
+                    .get(process.env.VUE_APP_API_PATH + '/bank?search=' + this.filter)
                     .then(response => {
                         this.bankItems = response.data
+                        this.loading = false;
                     })
                     .catch(() => {
 
@@ -185,6 +200,16 @@
             getCharacterColour: function(bank_char){
                 return "font-weight: bold; color: " + stc(bank_char);
             }
-        }
+        },
+        watch: {
+            filter: {
+                handler: function () {
+                    if (this.filter.length > 3 || this.filter.length === 0) {
+                        this.loadBankData()
+                    }
+                },
+                immediate: false
+            }
+        },
     }
 </script>
