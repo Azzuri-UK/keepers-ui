@@ -147,12 +147,14 @@
         },
         methods: {
             loadBankData: function () {
+                this.bankItems = []
                 this.loading = true;
                 axios
                     .get(process.env.VUE_APP_API_PATH + '/bank?search=' + this.filter)
                     .then(response => {
                         this.bankItems = response.data
                         this.loading = false;
+
                     })
                     .catch(() => {
 
