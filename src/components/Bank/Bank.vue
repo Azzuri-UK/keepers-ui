@@ -75,7 +75,7 @@
                    :data-wowhead=item.item_id>{{item.item_name}}</a>
             </template>
             <template v-slot:item.updated="{ item }">
-                {{relativeTime(item.update)}}
+                {{relativeTime(item.updated)}}
             </template>
         </v-data-table>
     </div>
@@ -175,7 +175,8 @@
                 return this.$store.getters.getRole==='OFFICER'
             },
             relativeTime: function (updateDate) {
-                return moment(updateDate).fromNow();
+                let updated = moment(parseInt(updateDate));
+                return updated.fromNow();
             }
         }
     }
