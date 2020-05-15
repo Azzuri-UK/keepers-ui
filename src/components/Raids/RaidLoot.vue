@@ -464,7 +464,7 @@
                     case 4:
                         switch (loot_subtype) {
                             case 1:
-                                return 'Need';
+                                return 'Mainspec';
                             case 2:
                                 return 'Minor Upgrade';
                             case 3:
