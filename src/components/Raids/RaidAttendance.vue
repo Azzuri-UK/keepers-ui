@@ -60,6 +60,7 @@
                 </v-form>
             </v-dialog>
             <v-btn v-show="raidOpen" @click="showCloseRaid" style="margin-left: 10px" color="orange">CLOSE RAID</v-btn>
+            <v-btn v-show="raidClosed" @click="showOpenRaid" style="margin-left: 10px" color="orange">REOPEN RAID</v-btn>
         </div>
 
         <v-row no-gutter>
@@ -270,6 +271,18 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        <v-dialog v-model="openRaidDialog" persistent max-width="500">
+            <v-card>
+                <v-card-title class="headline orange" primary-title>Close Raid
+                </v-card-title>
+                <v-card-text style="padding: 20px">Are you sure you want to reopen this raid?</v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green darken-1" text @click="openRaidDialog = false">Cancel</v-btn>
+                    <v-btn color="red darken-1" text v-on:click="openRaid">REOPEN RAID</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -326,7 +339,8 @@
                 formRules: [
                     v => !!v || 'This field is required'
                 ],
-                importType: 'CSV'
+                importType: 'CSV',
+                openRaidDialog: false
             }
         },
 
@@ -466,12 +480,28 @@
             showCloseRaid: function () {
                 this.closeRaidDialog = true;
             },
+            showOpenRaid: function () {
+                this.openRaidDialog = true;
+            },
             closeRaid: function () {
                 axios
                     .put(process.env.VUE_APP_API_PATH + '/raids/' + this.$route.params.raidId + '/close/')
                     .then(() => {
                         this.closeRaidDialog = false;
                         this.raidStatus = 0;
+                        location.reload();
+                    })
+                    .catch(() => {
+
+                    });
+            },
+            openRaid: function () {
+                axios
+                    .put(process.env.VUE_APP_API_PATH + '/raids/' + this.$route.params.raidId + '/open/')
+                    .then(() => {
+                        this.openRaidDialog = false;
+                        this.raidStatus = 1;
+                        location.reload();
                     })
                     .catch(() => {
 
@@ -481,6 +511,9 @@
         computed: {
             raidOpen() {
                 return this.raidStatus === 1 && (this.$store.getters.getRole === 'OFFICER')
+            },
+            raidClosed() {
+                return this.raidStatus === 0 && (this.$store.getters.getRole === 'OFFICER')
             }
         }
     }
