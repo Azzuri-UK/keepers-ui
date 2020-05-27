@@ -1,14 +1,16 @@
 <template>
     <div align="center" style="padding: 10px">
-        <v-card class="ma-5"      style="max-width: 1000px">
+        <v-card class="ma-5" style="max-width: 1000px">
             <v-card-title>{{this.listItem}} Priority List</v-card-title>
         </v-card>
         <v-data-table
-                :headers="headers"
+                :headers="computedHeaders"
                 :items="prioData"
                 style="max-width: 1000px"
                 :items-per-page="itemsPerPage"
                 :footer-props="footerProps"
+                :sort-by="['priority','character_name']"
+                :sort-desc="[true, false]"
         >
             <template v-slot:item.character_class="{ item }">
                 <v-tooltip right>
@@ -20,8 +22,8 @@
                 </v-tooltip>
             </template>
             <template v-slot:item.character_name="{ item }">
-                <div  style="font-weight: bold"
-                      :class="'wow_' + item.character_class.toLowerCase()">{{
+                <div style="font-weight: bold"
+                     :class="'wow_' + item.character_class.toLowerCase()">{{
                     item.character_name
                     }}
                 </div>
@@ -45,19 +47,14 @@
 
     export default {
         name: "PriorityDetails",
-        props: ["listId","listItem"],
+        props: ["listId", "listItem", "listType"],
         data: () => {
             return {
                 prioData: [],
-                headers: [
-                    {text: '', value: 'character_class', width: 30},
-                    {text: 'Character', value: 'character_name'},
-                    {text: '# Raids Attended', value: 'count',align:'center'},
-                ],
                 itemsPerPage: 25,
                 loading: true,
-                footerProps:{
-                    itemsPerPageOptions: [10,25,50]
+                footerProps: {
+                    itemsPerPageOptions: [10, 25, 50]
                 }
             }
         },
@@ -66,7 +63,7 @@
             this.getPriorityDetails();
         },
         methods: {
-            getPriorityDetails: function(){
+            getPriorityDetails: function () {
                 this.loading = true;
                 axios
                     .get(process.env.VUE_APP_API_PATH + '/lists/' + this.listId)
@@ -95,6 +92,30 @@
                         return paladinImage;
                 }
             },
+        },
+        computed: {
+            computedHeaders: function () {
+                let headers = [];
+                switch (this.listType) {
+                    case 0:
+                        headers = [
+                            {text: '', value: 'character_class', width: 30},
+                            {text: 'Character', value: 'character_name'},
+                            {text: '# Raids Attended', value: 'count', align: 'center'},
+                        ]
+                        break;
+                    case 1:
+                        headers = [
+                            {text: '', value: 'character_class', width: 30},
+                            {text: 'Character', value: 'character_name'},
+                            {text: '# Raids Attended', value: 'count', align: 'center'},
+                            {text: '# Items Received', value: 'num_items', align: 'center'},
+                            {text: 'Item Priority', value: 'priority', align: 'center'},
+                        ]
+                        break;
+                }
+                return headers;
+            }
         }
 
     }

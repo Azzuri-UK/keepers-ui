@@ -27,6 +27,7 @@ import Error from "./components/Error/Error";
 import Macro from "./components/Macros/Macros"
 import About from "./components/About/About"
 import Loot from "./components/Loot/Loot";
+import Groups from "./components/Groups/Groups";
 
 
 const routes = [
@@ -44,6 +45,7 @@ const routes = [
     {name: 'error', path: '/error/:errorMessage', component: Error, props: true,meta: {requiresAuth: false}},
     {name: 'macros', path: '/macros', component: Macro, props: true,meta: {requiresAuth: false}},
     {name: 'list', path: '/loot/lists/:listId', component: PriorityDetails, props: true, meta: {requiresAuth: true}},
+    {name: 'groups', path: '/groups', component: Groups, props: true, meta: {requiresAuth: true}},
 ];
 
 const router = new VueRouter({
