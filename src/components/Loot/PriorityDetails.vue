@@ -3,6 +3,24 @@
         <v-card class="ma-5" style="max-width: 1000px">
             <v-card-title>{{this.listItem}} Priority List</v-card-title>
         </v-card>
+        <v-list
+                dense
+                style="max-width: 1000px;margin-bottom: 10px"
+        >
+            <v-list-item-group v-model="prioItems" color="primary">
+                <v-list-item
+                        v-for="(item, i) in prioItems"
+                        :key="i"
+                >
+                    <v-list-item-content>
+                        <a :href="'https://classic.wowhead.com/item=' + item.item_id"
+                           style="font-weight: bold;text-decoration: none" :class="getItemClass(item.item_quality)"
+                           :data-wowhead=item.item_id>{{item.item_name}}</a>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list-item-group>
+        </v-list>
+        <div>{{prioZone}}</div>
         <v-data-table
                 :headers="computedHeaders"
                 :items="prioData"
@@ -55,12 +73,19 @@
                 loading: true,
                 footerProps: {
                     itemsPerPageOptions: [10, 25, 50]
-                }
+                },
+                prioItems: [],
+                prioZone: '',
+                itemHeaders: [
+                    {text: 'Item', value: 'item_name'},
+                ]
             }
         },
         mounted() {
 
             this.getPriorityDetails();
+            this.getPriorityItems()
+            this.getPriorityZones()
         },
         methods: {
             getPriorityDetails: function () {
@@ -69,6 +94,38 @@
                     .get(process.env.VUE_APP_API_PATH + '/lists/' + this.listId)
                     .then(response => {
                         this.prioData = response.data;
+                        this.loading = false;
+                    });
+            },
+            getPriorityItems: function () {
+                axios
+                    .get(process.env.VUE_APP_API_PATH + '/lists/' + this.listId + '/items')
+                    .then(response => {
+                        this.prioItems = response.data;
+                        this.loading = false;
+                    });
+            },
+            getPriorityZones: function () {
+                axios
+                    .get(process.env.VUE_APP_API_PATH + '/lists/' + this.listId + '/zones')
+                    .then(response => {
+                        switch (response.data[0].raid_zone) {
+                            case 'ALL':
+                                this.prioZone = 'Attendance tracked from all official raids '
+                                break;
+                            case 'ZG':
+                                this.prioZone = 'Attendance tracked from official Zul\'Gurub raids'
+                                break;
+                            case 'MC':
+                                this.prioZone = 'Attendance tracked from official Molten Core raids'
+                                break;
+                            case 'BWL':
+                                this.prioZone = 'Attendance tracked from official Blackwing Lair raids'
+                                break
+                            case 'ONY':
+                                this.prioZone = 'Attendance tracked from official Onyxia raids'
+                                break;
+                        }
                         this.loading = false;
                     });
             },
@@ -90,6 +147,20 @@
                         return hunterImage;
                     case 'Paladin':
                         return paladinImage;
+                }
+            },
+            getItemClass: function (item_class) {
+                switch (item_class) {
+                    case 1:
+                        return 'q1';
+                    case 2:
+                        return 'q2';
+                    case 3:
+                        return 'q3';
+                    case 4:
+                        return 'q4';
+                    case 5:
+                        return 'q5'
                 }
             },
         },
