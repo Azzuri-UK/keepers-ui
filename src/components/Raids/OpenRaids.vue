@@ -1,55 +1,55 @@
 <template>
     <div align="center">
-    <v-data-iterator
-            :items="openRaids"
-            :disable-pagination="disablePagination"
-            :hide-default-footer="disablePagination"
-    >
-        <template v-slot:default="props">
-            <v-hover :key="item.name" v-for="item in props.items" v-slot:default="{ hover }">
+        <v-data-iterator
+                :items="openRaids"
+                :disable-pagination="disablePagination"
+                :hide-default-footer="disablePagination"
+        >
+            <template v-slot:default="props">
+                <v-hover :key="item.name" v-for="item in props.items" v-slot:default="{ hover }">
 
-                <v-card :class="item.raid_status === 0 ? 'closedRaid' : 'openRaid'"
-                        v-on:click="onViewRaid(item.raid_id)" :elevation="hover ? 12 : 2"
-                        :style="hover ? 'cursor:pointer;background-color: #616161;margin: 15px;max-width: 1000px' : 'margin: 15px;max-width: 1000px'"
-                >
+                    <v-card :class="item.raid_status === 0 ? 'closedRaid' : 'openRaid'"
+                            v-on:click="onViewRaid(item.raid_id)" :elevation="hover ? 12 : 2"
+                            :style="hover ? 'cursor:pointer;background-color: #616161;margin: 15px;max-width: 1000px' : 'margin: 15px;max-width: 1000px'"
+                    >
 
-                    <v-img :position="getZoneImagePosition(item.raid_zone)" :src="getZoneImage(item.raid_zone)"
-                           height="150px">
+                        <v-img :position="getZoneImagePosition(item.raid_zone)" :src="getZoneImage(item.raid_zone)"
+                               height="150px">
 
-                        <div align="left" style="font-size: 30px;font-weight: bold;padding:5px">
-                            {{getZoneName(item.raid_zone)}}
-                        </div>
-                        <div align="left" style="font-size:24px;padding:5px;font-weight: bold">
-                            {{getRaidTime(item.raid_start)}}
-                        </div>
-                        <div align="left" style="font-size: 16px;padding:5px;">{{getRaidDate(item.raid_date)}}</div>
+                            <div align="left" style="font-size: 30px;font-weight: bold;padding:5px">
+                                {{getZoneName(item.raid_zone)}}
+                            </div>
+                            <div align="left" style="font-size:24px;padding:5px;font-weight: bold">
+                                {{getRaidTime(item.raid_start)}}
+                            </div>
+                            <div align="left" style="font-size: 16px;padding:5px;">{{getRaidDate(item.raid_date)}}</div>
 
-                        <div style="position: absolute;right: 20px; top: 10px">
-                            <v-img height="34px" width="34px" :src="getRoleImage('Tank')"></v-img>
-                        </div>
-                        <div style="position: absolute;right: 65px; top: 17px;font-weight: bold">{{item.tank_count}}
-                        </div>
+                            <div style="position: absolute;right: 20px; top: 10px">
+                                <v-img height="34px" width="34px" :src="getRoleImage('Tank')"></v-img>
+                            </div>
+                            <div style="position: absolute;right: 65px; top: 17px;font-weight: bold">{{item.tank_count}}
+                            </div>
 
-                        <div style="position: absolute;right: 20px; top: 50px">
-                            <v-img height="34px" width="34px" :src="getRoleImage('Healer')"></v-img>
-                        </div>
-                        <div style="position: absolute;right: 65px; top: 57px;font-weight: bold">
-                            {{item.healer_count}}
-                        </div>
+                            <div style="position: absolute;right: 20px; top: 50px">
+                                <v-img height="34px" width="34px" :src="getRoleImage('Healer')"></v-img>
+                            </div>
+                            <div style="position: absolute;right: 65px; top: 57px;font-weight: bold">
+                                {{item.healer_count}}
+                            </div>
 
-                        <div style="position: absolute;right: 20px; top: 90px">
-                            <v-img height="34px" width="34px" :src="getRoleImage('Damage')"></v-img>
-                        </div>
-                        <div style="position: absolute;right: 65px; top: 97px;font-weight: bold">
-                            {{item.damage_count}}
-                        </div>
-                    </v-img>
+                            <div style="position: absolute;right: 20px; top: 90px">
+                                <v-img height="34px" width="34px" :src="getRoleImage('Damage')"></v-img>
+                            </div>
+                            <div style="position: absolute;right: 65px; top: 97px;font-weight: bold">
+                                {{item.damage_count}}
+                            </div>
+                        </v-img>
 
 
-                </v-card>
-            </v-hover>
-        </template>
-    </v-data-iterator>
+                    </v-card>
+                </v-hover>
+            </template>
+        </v-data-iterator>
     </div>
 </template>
 
@@ -61,6 +61,8 @@
     let onyImage = require("@/assets/raids/ONY.jpg");
     let bwlImage = require("@/assets/raids/BWL.jpg");
     let zgImage = require("@/assets/raids/ZG.jpg");
+    let aq20Image = require("@/assets/raids/aq201.jpg");
+    let aq40Image = require("@/assets/raids/aq401.jpg");
     let tankImage = require("@/assets/roles/Tank.png");
     let healerImage = require("@/assets/roles/Healer.png");
     let damageImage = require("@/assets/roles/Damage.png");
@@ -95,6 +97,10 @@
                         return "0% 50%";
                     case 'ZG':
                         return "0% 47%";
+                    case 'AQ40':
+                        return "0% 50%";
+                    case 'AQ20':
+                        return "0% 50%";
                     default:
                         return "top";
                 }
@@ -126,6 +132,10 @@
                         return bwlImage;
                     case 'ZG':
                         return zgImage;
+                    case 'AQ20':
+                        return aq20Image;
+                    case 'AQ40':
+                        return aq40Image;
                     default:
                 }
             },
@@ -139,6 +149,10 @@
                         return 'Blackwing Lair';
                     case 'ZG':
                         return "Zul'Gurub";
+                    case 'AQ20':
+                        return 'Ruins of Ahn\'Qiraj'
+                    case 'AQ40':
+                        return 'Temple of Ahn\'Qiraj'
                     default:
 
                 }

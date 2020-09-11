@@ -57,6 +57,8 @@
     let onyImage = require("@/assets/raids/ony3.jpg");
     let bwlImage = require("@/assets/raids/bwl2.jpg");
     let zgImage = require("@/assets/raids/zg3.jpg");
+    let aq20Image = require("@/assets/raids/aq201.jpg");
+    let aq40Image = require("@/assets/raids/aq401.jpg");
 
     export default {
         name: "RaidDetails",
@@ -93,11 +95,15 @@
                         return 'Blackwing Lair';
                     case 'ZG':
                         return "Zul'Gurub";
+                    case 'AQ20':
+                        return 'Ruins of Ahn\'Qiraj'
+                    case 'AQ40':
+                        return 'Temple of Ahn\'Qiraj'
                     default:
 
                 }
             },
-            getZoneImage: (zone) => {
+            getZoneImage: function (zone) {
                 switch (zone) {
                     case 'MC':
                         return mcImage;
@@ -107,22 +113,30 @@
                         return bwlImage;
                     case 'ZG':
                         return zgImage;
+                    case 'AQ20':
+                        return aq20Image;
+                    case 'AQ40':
+                        return aq40Image;
                     default:
                 }
             },
             getRaidDate: (date) => {
                 return moment(date).format("dddd, MMMM Do YYYY");
             },
-            getZoneImagePosition: function(zone) {
+            getZoneImagePosition: function (zone) {
                 switch (zone) {
                     case 'MC':
-                        return "top";
+                        return "0% 50%";
                     case 'ONY':
-                        return "0% 25%";
+                        return "0% 27%";
                     case 'BWL':
-                        return "0% 25%";
+                        return "0% 50%";
                     case 'ZG':
-                        return "0% 25%";
+                        return "0% 47%";
+                    case 'AQ40':
+                        return "0% 35%";
+                    case 'AQ20':
+                        return "0% 35%";
                     default:
                         return "top";
                 }

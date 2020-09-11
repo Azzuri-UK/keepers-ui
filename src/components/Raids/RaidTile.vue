@@ -38,6 +38,9 @@
     let mcImage = require("@/assets/raids/MC.jpg");
     let onyImage = require("@/assets/raids/ONY.jpg");
     let bwlImage = require("@/assets/raids/BWL.jpg");
+    let zgImage = require("@/assets/raids/ZG.jpg");
+    let aq20Image = require("@/assets/raids/aq201.jpg");
+    let aq40Image = require("@/assets/raids/aq401.jpg");
     export default {
         name: "RaidTile",
         props: {
@@ -66,12 +69,20 @@
                     case 'MC':
                         return 'Molten Core';
                     case 'ONY':
-                        return 'Onyxia\'s Lair'
+                        return 'Onyxia\'s Lair';
                     case 'BWL':
-                        return 'Blackwing Lair'
+                        return 'Blackwing Lair';
+                    case 'ZG':
+                        return "Zul'Gurub";
+                    case 'AQ20':
+                        return 'Ruins of Ahn\'Qiraj'
+                    case 'AQ40':
+                        return 'Temple of Ahn\'Qiraj'
+                    default:
+
                 }
             },
-            getZoneImage: (zone) => {
+            getZoneImage: function (zone) {
                 switch (zone) {
                     case 'MC':
                         return mcImage;
@@ -79,6 +90,13 @@
                         return onyImage;
                     case 'BWL':
                         return bwlImage;
+                    case 'ZG':
+                        return zgImage;
+                    case 'AQ20':
+                        return aq20Image;
+                    case 'AQ40':
+                        return aq40Image;
+                    default:
                 }
             },
             getRaidDate: (date) => {

@@ -125,6 +125,12 @@
                             case 'ONY':
                                 this.prioZone = 'Attendance tracked from official Onyxia raids'
                                 break;
+                            case 'AQ40':
+                                this.prioZone = 'Attendance tracked from official Temple of Ahn\'Qiraj raids'
+                                break;
+                            case 'AQ20':
+                                this.prioZone = 'Attendance tracked from official Ruins of Ahn\'Qiraj raids'
+                                break;
                         }
                         this.loading = false;
                     });
