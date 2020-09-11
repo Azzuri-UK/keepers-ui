@@ -16,15 +16,15 @@
                         <v-img :position="getZoneImagePosition(item.raid_zone)" :src="getZoneImage(item.raid_zone)"
                                height="150px">
 
-                            <div align="left" style="font-size: 30px;font-weight: bold;padding:5px">
+                            <div align="left" style="font-size: 30px;font-weight: bold;padding:5px;color:white; text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black;">
                                 {{getZoneName(item.raid_zone)}}
                             </div>
-                            <div align="left" style="font-size:24px;padding:5px;font-weight: bold">
+                            <div align="left" style="font-size:24px;padding:5px;font-weight: bold;color:white; text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black;">
                                 {{getRaidTime(item.raid_start)}}
                             </div>
                             <div align="left" style="font-size: 16px;padding:5px;">{{getRaidDate(item.raid_date)}}</div>
 
-                            <div style="position: absolute;right: 20px; top: 10px">
+                            <div style="position: absolute;right: 20px; top: 10px;color:white; text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black;">
                                 <v-img height="34px" width="34px" :src="getRoleImage('Tank')"></v-img>
                             </div>
                             <div style="position: absolute;right: 65px; top: 17px;font-weight: bold">{{item.tank_count}}
@@ -61,8 +61,8 @@
     let onyImage = require("@/assets/raids/ONY.jpg");
     let bwlImage = require("@/assets/raids/BWL.jpg");
     let zgImage = require("@/assets/raids/ZG.jpg");
-    let aq20Image = require("@/assets/raids/aq201.jpg");
-    let aq40Image = require("@/assets/raids/aq401.jpg");
+    let aq20Image = require("@/assets/raids/aq202.jpg");
+    let aq40Image = require("@/assets/raids/aq402.jpg");
     let tankImage = require("@/assets/roles/Tank.png");
     let healerImage = require("@/assets/roles/Healer.png");
     let damageImage = require("@/assets/roles/Damage.png");
@@ -100,7 +100,7 @@
                     case 'AQ40':
                         return "0% 50%";
                     case 'AQ20':
-                        return "0% 50%";
+                        return "35% 50%";
                     default:
                         return "top";
                 }
