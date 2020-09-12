@@ -1,4 +1,4 @@
-# keepers-ui
+# classic-guilds
 
 ## Project setup
 ```
