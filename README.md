@@ -1,4 +1,4 @@
-# keepers-ui
+# warcraft-guild
 
 ## Project setup
 ```
