@@ -5,9 +5,6 @@
             <v-btn v-show="canImportRoster" @click="importDialog = true" style="margin-left: 10px" color="orange">IMPORT
                 ROSTER
             </v-btn>
-            <v-btn v-show="canExportEPGP" @click="exportDialog = true" style="margin-left: 10px" color="orange">EXPORT
-                EPGP
-            </v-btn>
         </div>
         <v-text-field
                 style="max-width: 1000px"
@@ -129,52 +126,18 @@
                 </v-card>
             </v-form>
         </v-dialog>
-        <v-dialog v-model="exportDialog" persistent max-width="500">
-            <v-form ref="exportEpgpForm">
-                <v-card>
-                    <v-form ref="importRosterForm">
-                        <v-card-title class="headline orange" primary-title>
-                            Import Roster
-                        </v-card-title>
-
-                        <v-card-text style="padding: 20px">
-                            Copy the following text into the import of CEP
-                            <v-textarea v-model="exportCsv" style="margin: 10px" color="orange" filled required
-                                        readonly></v-textarea>
-                        </v-card-text>
-
-                        <v-divider></v-divider>
-
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn color="green" text @click="closeEpgpExport">
-                                Close
-                            </v-btn>
-                        </v-card-actions>
-                    </v-form>
-                </v-card>
-            </v-form>
-        </v-dialog>
     </div>
 </template>
 
 <script>
     import axios from 'axios'
 
-    let tankImage = require("@/assets/roles/Tank.png");
-    let healerImage = require("@/assets/roles/Healer.png");
-    let damageImage = require("@/assets/roles/Damage.png");
-    let druidImage = require("@/assets/classes/wow_flat_druid.png");
-    let hunterImage = require("@/assets/classes/wow_flat_hunter.png");
-    let mageImage = require("@/assets/classes/wow_flat_mage.png");
-    let paladinImage = require("@/assets/classes/wow_flat_paladin.png");
-    let priestImage = require("@/assets/classes/wow_flat_priest.png");
-    let warlockImage = require("@/assets/classes/wow_flat_warlock.png");
-    let warriorImage = require("@/assets/classes/wow_flat_warrior.png");
-    let rogueImage = require("@/assets/classes/wow_flat_rogue.png");
+    import Classes from "../../mixins/Classes";
+    import Roles from "../../mixins/Roles";
 
     export default {
         name: "Roster",
+        mixins: [Classes,Roles],
         data: () => {
             return {
                 headers: [
@@ -189,18 +152,6 @@
                     {
                         text: 'Role',
                         value: 'character_role'
-                    },
-                    {
-                        text: 'Effort Points',
-                        value: 'effort_points'
-                    },
-                    {
-                        text: 'Gear Points',
-                        value: 'gear_points'
-                    },
-                    {
-                        text: 'Priority',
-                        value: 'priority'
                     }
                 ],
                 items: [],
@@ -217,21 +168,6 @@
                     role: ''
                 },
                 addCharacterDialog: false,
-                classes: [
-                    'Druid',
-                    'Hunter',
-                    'Mage',
-                    'Paladin',
-                    'Priest',
-                    'Rogue',
-                    'Warlock',
-                    'Warrior'
-                ],
-                roles: [
-                    'Tank',
-                    'Healer',
-                    'DPS'
-                ],
                 formRules: [
                     v => !!v || 'This field is required'
                 ],
@@ -243,36 +179,6 @@
             this.loadRoster()
         },
         methods: {
-            getRoleImage: (role) => {
-                switch (role) {
-                    case 'Tank':
-                        return tankImage;
-                    case 'Healer':
-                        return healerImage;
-                    case 'Damage':
-                        return damageImage;
-                }
-            },
-            getClassImage: (wowClass) => {
-                switch (wowClass) {
-                    case 'Warrior':
-                        return warriorImage;
-                    case 'Priest':
-                        return priestImage;
-                    case 'Mage':
-                        return mageImage;
-                    case 'Druid':
-                        return druidImage;
-                    case 'Warlock':
-                        return warlockImage;
-                    case 'Rogue':
-                        return rogueImage;
-                    case 'Hunter':
-                        return hunterImage;
-                    case 'Paladin':
-                        return paladinImage;
-                }
-            },
             importRoster: function () {
                 if (this.$refs.importRosterForm.validate()) {
                     axios
@@ -321,16 +227,9 @@
             },
             loadRoster: function () {
                 axios
-                    .get(process.env.VUE_APP_API_PATH + '/roster/epgp')
+                    .get(process.env.VUE_APP_API_PATH + '/roster/')
                     .then(response => {
                         this.items = response.data;
-                        let characters = '';
-                        for (let character of response.data){
-                            if (character.effort_points > 30) {
-                                characters += character.character_name + ',' + character.effort_points + ',' + character.gear_points + ',' + "\n"
-                            }
-                        }
-                        this.exportCsv =  characters
                         this.loading = false;
                     })
                     .catch(() => {
@@ -348,19 +247,12 @@
                 this.importDialog = false;
                 this.resetValidation('importRosterForm')
             },
-            closeEpgpExport: function(){
-                this.exportDialog = false;
-                this.resetValidation('exportEpgpForm')
-            }
         },
         computed: {
             canAddCharacter() {
                 return (this.$store.getters.getRole === 'OFFICER')
             },
             canImportRoster() {
-                return (this.$store.getters.getRole === 'OFFICER')
-            },
-            canExportEPGP(){
                 return (this.$store.getters.getRole === 'OFFICER')
             },
         },

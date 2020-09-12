@@ -289,19 +289,12 @@
 <script>
     import axios from 'axios'
 
-    let tankImage = require("@/assets/roles/Tank.png");
-    let healerImage = require("@/assets/roles/Healer.png");
-    let damageImage = require("@/assets/roles/Damage.png");
-    let druidImage = require("@/assets/classes/wow_flat_druid.png");
-    let hunterImage = require("@/assets/classes/wow_flat_hunter.png");
-    let mageImage = require("@/assets/classes/wow_flat_mage.png");
-    let paladinImage = require("@/assets/classes/wow_flat_paladin.png");
-    let priestImage = require("@/assets/classes/wow_flat_priest.png");
-    let warlockImage = require("@/assets/classes/wow_flat_warlock.png");
-    let warriorImage = require("@/assets/classes/wow_flat_warrior.png");
-    let rogueImage = require("@/assets/classes/wow_flat_rogue.png");
+    import Roles from '../../mixins/Roles'
+    import Classes from '../../mixins/Classes'
+
     export default {
         name: "RaidAttendance",
+        mixins: [Roles,Classes],
         props: {
             "tanks": Array,
             "healers": Array,
@@ -311,9 +304,6 @@
         },
         data: () => {
             return {
-                tankImage: tankImage,
-                healerImage: healerImage,
-                damageImage: damageImage,
                 importDialog: false,
                 addDialog: false,
                 closeRaidDialog: false,
@@ -345,36 +335,6 @@
         },
 
         methods: {
-            getClassImage: (wowClass) => {
-                switch (wowClass) {
-                    case 'Warrior':
-                        return warriorImage;
-                    case 'Priest':
-                        return priestImage;
-                    case 'Mage':
-                        return mageImage;
-                    case 'Druid':
-                        return druidImage;
-                    case 'Warlock':
-                        return warlockImage;
-                    case 'Rogue':
-                        return rogueImage;
-                    case 'Hunter':
-                        return hunterImage;
-                    case 'Paladin':
-                        return paladinImage;
-                }
-            },
-            getRoleImage: (role) => {
-                switch (role) {
-                    case 'Tank':
-                        return tankImage;
-                    case 'Healer':
-                        return healerImage;
-                    case 'Damage':
-                        return damageImage;
-                }
-            },
             showAddCharacterRoleToRaid: function (role) {
                 this.selected = [];
                 let apiRole;

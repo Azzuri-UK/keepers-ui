@@ -35,14 +35,11 @@
 <script>
     import moment from 'moment'
 
-    let mcImage = require("@/assets/raids/MC.jpg");
-    let onyImage = require("@/assets/raids/ONY.jpg");
-    let bwlImage = require("@/assets/raids/BWL.jpg");
-    let zgImage = require("@/assets/raids/ZG.jpg");
-    let aq20Image = require("@/assets/raids/aq201.jpg");
-    let aq40Image = require("@/assets/raids/aq401.jpg");
+    import RaidZones from "../../mixins/RaidZones";
+
     export default {
         name: "RaidTile",
+        mixins: [RaidZones],
         props: {
             "raidId": {
                 type: Number
@@ -64,41 +61,6 @@
             }
         },
         methods: {
-            getZoneName: (zone) => {
-                switch (zone) {
-                    case 'MC':
-                        return 'Molten Core';
-                    case 'ONY':
-                        return 'Onyxia\'s Lair';
-                    case 'BWL':
-                        return 'Blackwing Lair';
-                    case 'ZG':
-                        return "Zul'Gurub";
-                    case 'AQ20':
-                        return 'Ruins of Ahn\'Qiraj'
-                    case 'AQ40':
-                        return 'Temple of Ahn\'Qiraj'
-                    default:
-
-                }
-            },
-            getZoneImage: function (zone) {
-                switch (zone) {
-                    case 'MC':
-                        return mcImage;
-                    case 'ONY':
-                        return onyImage;
-                    case 'BWL':
-                        return bwlImage;
-                    case 'ZG':
-                        return zgImage;
-                    case 'AQ20':
-                        return aq20Image;
-                    case 'AQ40':
-                        return aq40Image;
-                    default:
-                }
-            },
             getRaidDate: (date) => {
                 return moment(date).format("dddd, MMMM Do YYYY");
             },
