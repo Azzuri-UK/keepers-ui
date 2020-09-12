@@ -1,4 +1,4 @@
-# warcraft-guild
+# classic-guilds
 
 ## Project setup
 ```
