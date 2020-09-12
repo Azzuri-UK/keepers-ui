@@ -7,7 +7,7 @@
         <v-img
                 class="white--text align-end"
                 height="150"
-                :src=this.getZoneImage(zone)
+                :src=this.getZoneImage(zone,'tile')
         >
             <v-card-title>{{ this.getZoneName(zone) }}</v-card-title>
         </v-img>

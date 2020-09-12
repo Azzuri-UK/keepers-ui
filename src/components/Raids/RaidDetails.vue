@@ -9,8 +9,8 @@
                 :class="this.raid.raid_status === 0 ? 'closedRaid white--text align-end' : 'openRaid white--text align-end'"
                 height="300"
                 max-height="300"
-                :src=this.getZoneImage(this.raid.raid_zone)
-                :position=this.getZoneImagePosition(this.raid.raid_zone)
+                :src=this.getZoneImage(this.raid.raid_zone,this.type)
+                :position=this.getZoneImagePosition(this.raid.raid_zone,this.type)
         >
 
             <div align="left" style="font-size: 34px;font-weight: bold;padding:5px">
@@ -75,7 +75,8 @@
                     raid_end: null,
                     raid_date: null,
                     raid_status: null
-                }
+                },
+                type: 'header'
             }
         },
         mounted() {

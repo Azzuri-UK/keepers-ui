@@ -13,7 +13,7 @@
                             :style="hover ? 'cursor:pointer;background-color: #616161;margin: 15px;max-width: 1000px' : 'margin: 15px;max-width: 1000px'"
                     >
 
-                        <v-img :position="getZoneImagePosition(item.raid_zone)" :src="getZoneImage(item.raid_zone)"
+                        <v-img :position="getZoneImagePosition(item.raid_zone,'tile')" :src="getZoneImage(item.raid_zone,'tile')"
                                height="150px">
 
                             <div align="left" style="font-size: 30px;font-weight: bold;padding:5px;color:white; text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black;">
